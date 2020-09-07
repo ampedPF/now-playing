@@ -1,68 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 #container {
-    width: 500px;
-    height: 100px;
+    width: 1000px;
+    height: 200px;
     display: flex;
     background-color: #121212;
 }
 
-#div-cover,
-#div-song {
-    display: flex;
-    flex-direction: column;
-}
-
 #div-cover {
-    width: 100px;
+    width: 20%;
+    z-index: 100;
 }
 
 #div-song {
-    width: 400px;
+    width: 80%;
 }
 
 #cover {
     height: 100%;
-    z-index: 5;
 }
 
 #div-song>div {
-    padding-left: 10px;
-    vertical-align: middle;
+    padding-left: 2%;
 }
 
 #title {
-    line-height: 60px;
-    display: inline-flex;
+    /* line-height: 45%; */
     white-space: nowrap;
-    overflow: hidden;
 }
 
 #artist {
-    line-height: 40px;
-    display: inline-flex;
+    /* line-height: 30%; */
+    white-space: nowrap;
+}
+
+#album {
+    /* line-height: 25%; */
     white-space: nowrap;
 }
 
 #div-title {
-    height: 60%;
+    height: 45%;
     color: #ffffff;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 48px;
     font-family: "Helvetica Neue", sans-serif;
+    display: flex;
+    align-items: center;
 }
 
 #div-artist {
-    height: 40%;
+    height: 30%;
     color: #707070;
     text-transform: uppercase;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 36px;
     font-weight: bold;
     font-family: "Helvetica Neue", sans-serif;
+    display: flex;
+    align-items: center;
 }
 
-#by {
-    text-transform: lowercase;
-    padding-right: 0.2em;
+#div-album {
+    height: 25%;
+    color: #7b7ba7;
+    font-weight: 600;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    align-items: center;
 }
 
 

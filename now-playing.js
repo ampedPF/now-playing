@@ -1,26 +1,35 @@
-var newArtist;
 var newTitle;
-var oldArtist;
+var newArtist;
+var newAlbum;
 var oldTitle;
+var oldArtist;
+var oldAlbum;
 var shown = false;
 
 var artistPath = "./data/np_artist.txt";
+var albumPath = "./data/np_album.txt";
 var titlePath = "./data/np_title.txt";
 var coverPath = "./data/np_cover.png";
 
-var maxArtistLength = 25;
 var maxTitleLength = 30;
+var maxArtistLength = 25;
+var maxAlbumLength = 40;
 
 function hideText() {
-  $("#artist").animate({
+  $("#title").animate({
     opacity: 0
   }, 300, function () {
     document.getElementById("title").classList.remove("scrolling");
   });
-  $("#title").animate({
+  $("#artist").animate({
     opacity: 0
   }, 300, function () {
     document.getElementById("artist").classList.remove("scrolling");
+  });
+  $("#album").animate({
+    opacity: 0
+  }, 300, function () {
+    document.getElementById("album").classList.remove("scrolling");
   });
 
 
@@ -29,21 +38,10 @@ function hideText() {
 function updateText() {
   document.getElementById("title").innerHTML = newTitle;
   document.getElementById("artist").innerHTML = newArtist;
+  document.getElementById("album").innerHTML = newAlbum;
 }
 
 function showText() {
-  if (newArtist.length > maxArtistLength) {
-    $("#artist").animate({
-      opacity: 0
-    }, 300, function () {
-      $("#artist").css("opacity", "1");
-    });
-  } else {
-    $("#artist").animate({
-      opacity: 1
-    }, 300);
-  }
-
   if (newTitle.length > maxTitleLength) {
     $("#title").animate({
       opacity: 0
@@ -55,24 +53,55 @@ function showText() {
       opacity: 1
     }, 300);
   }
+  if (newArtist.length > maxArtistLength) {
+    $("#artist").animate({
+      opacity: 0
+    }, 300, function () {
+      $("#artist").css("opacity", "1");
+    });
+  } else {
+    $("#artist").animate({
+      opacity: 1
+    }, 300);
+  }
+  if (newAlbum.length > maxAlbumLength) {
+    $("#album").animate({
+      opacity: 0
+    }, 300, function () {
+      $("#album").css("opacity", "1");
+    });
+  } else {
+    $("#album").animate({
+      opacity: 1
+    }, 300);
+  }
 
+  if (newTitle.length > maxTitleLength) setTimeout(function () {
+    document.getElementById("title").classList.add("scrolling");
+  }, 300);
   if (newArtist.length > maxArtistLength) setTimeout(function () {
     document.getElementById("artist").classList.add("scrolling");
   }, 300);
-  if (newTitle.length > maxTitleLength) setTimeout(function () {
-    document.getElementById("title").classList.add("scrolling");
+  if (newAlbum.length > maxAlbumLength) setTimeout(function () {
+    document.getElementById("album").classList.add("scrolling");
   }, 300);
 
 }
 
 function checkUpdate() {
   // console.log("checkUpdate");
-  $.get(artistPath, function (artist) {
-    newArtist = artist.replace(/&/g, "&amp;");
-  }).then(
-    $.get(titlePath, function (title) {
+  $.get(titlePath, function (title) {
       newTitle = title.replace(/&/g, "&amp;");
-    })).then(displayData);
+    })
+    .then(
+      $.get(artistPath, function (artist) {
+        newArtist = artist.replace(/&/g, "&amp;");
+      }))
+    .then(
+      $.get(albumPath, function (album) {
+        newAlbum = album.replace(/&/g, "&amp;");
+      }))
+    .then(displayData);
 
   setTimeout(checkUpdate, 2000);
 }
@@ -82,13 +111,14 @@ function displayData() {
   var dataValidated = false;
   var dataChanged = false;
 
-  if (newTitle.length > 1 && newArtist.length > 1) {
+  if (newTitle.length > 1 && newArtist.length > 1 && newAlbum.length > 1) {
     dataValidated = true;
   }
-  if (newTitle != document.getElementById("title").innerHTML || newArtist != document.getElementById("artist").innerHTML) {
+  if (newTitle != document.getElementById("title").innerHTML || newArtist != document.getElementById("artist").innerHTML || newAlbum != document.getElementById("album").innerHTML) {
     dataChanged = true;
     oldTitle = document.getElementById("title").innerHTML;
     oldArtist = document.getElementById("artist").innerHTML;
+    oldAlbum = document.getElementById("album").innerHTML;
   }
 
   if (!shown) {
