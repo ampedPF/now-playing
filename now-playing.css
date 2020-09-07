@@ -1,0 +1,81 @@
+#container {
+    width: 500px;
+    height: 100px;
+    display: flex;
+    background-color: #121212;
+}
+
+#div-cover,
+#div-song {
+    display: flex;
+    flex-direction: column;
+}
+
+#div-cover {
+    width: 100px;
+}
+
+#div-song {
+    width: 400px;
+}
+
+#cover {
+    height: 100%;
+    z-index: 5;
+}
+
+#div-song>div {
+    padding-left: 10px;
+    vertical-align: middle;
+}
+
+#title {
+    line-height: 60px;
+    display: inline-flex;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#artist {
+    line-height: 40px;
+    display: inline-flex;
+    white-space: nowrap;
+}
+
+#div-title {
+    height: 60%;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 24px;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+#div-artist {
+    height: 40%;
+    color: #707070;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+#by {
+    text-transform: lowercase;
+    padding-right: 0.2em;
+}
+
+
+.scrolling {
+    animation: slide 20s linear infinite;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(420px);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
