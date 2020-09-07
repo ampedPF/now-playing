@@ -25,17 +25,14 @@
 }
 
 #title {
-    /* line-height: 45%; */
     white-space: nowrap;
 }
 
 #artist {
-    /* line-height: 30%; */
     white-space: nowrap;
 }
 
 #album {
-    /* line-height: 25%; */
     white-space: nowrap;
 }
 
@@ -79,7 +76,7 @@
 
 @keyframes slide {
     0% {
-        transform: translateX(420px);
+        transform: translateX(100%);
     }
 
     100% {

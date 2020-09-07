@@ -103,7 +103,7 @@ function checkUpdate() {
       }))
     .then(displayData);
 
-  setTimeout(checkUpdate, 2000);
+  setTimeout(checkUpdate, 1000);
 }
 
 function displayData() {
