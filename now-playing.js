@@ -8,8 +8,8 @@ var titlePath = "./data/np_title.txt";
 var coverPath = "./data/np_cover.png";
 
 var maxTitleLength = 30;
-var maxArtistLength = 25;
-var maxAlbumLength = 40;
+var maxArtistLength = 40;
+var maxAlbumLength = 50;
 
 function updateText() {
   document.getElementById("title").innerHTML = newTitle;
@@ -17,37 +17,36 @@ function updateText() {
   document.getElementById("album").innerHTML = newAlbum;
 }
 
-function resetText(el) {
-  let element = document.getElementById(el);
-  let elem = $("#" + el);
+function resetText(elem) {
   elem.promise().done((self) => {
-    element.classList.remove("scrolling");
+    elem.removeClass("scrolling");
     elem.css("opacity", "0");
   });
 }
 
 function hideText() {
-  resetText("title");
-  resetText("artist");
-  resetText("album");
+  resetText($("#title"));
+  resetText($("#artist"));
+  resetText($("#album"));
 }
 
-function animateText(el, text, maxLength) {
-  let element = document.getElementById(el);
-  let elem = $("#" + el);
+function animateText(elem, text, maxLength) {
   elem.promise().done((self) => {
     if (text.length > maxLength) {
-      element.classList.add("scrolling");
+      setTimeout(() => {
+        elem.addClass("scrolling");
+      }, 1500);
     }
-    elem.fadeIn(500);
-    elem.css("opacity", "1");
+    elem.fadeIn(500).promise().done(function () {
+      elem.css("opacity", "1");
+    });
   })
 }
 
 function showText() {
-  animateText("title", newTitle, maxTitleLength);
-  animateText("artist", newArtist, maxArtistLength);
-  animateText("album", newAlbum, maxAlbumLength);
+  animateText($("#title"), newTitle, maxTitleLength);
+  animateText($("#artist"), newArtist, maxArtistLength);
+  animateText($("#album"), newAlbum, maxAlbumLength);
 }
 
 function displayData() {
@@ -82,9 +81,9 @@ function displayData() {
       hideText();
       setTimeout(updateText, 300);
       setTimeout(showText, 400);
-      $("#cover").fadeOut(500, function () {
-        document.getElementById("cover").setAttribute("src", coverPath);
-        $("#cover").fadeIn(500);
+      $("#cover").fadeOut(300, function () {
+        document.getElementById("cover").src = coverPath + "?t=" + newTitle + newArtist;
+        $("#cover").fadeIn(300);
       });
     }
   }

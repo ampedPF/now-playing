@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 body {
-    background-color: #121212;
+    background-color: rgba(0, 0, 0, 0);
     margin: 0px auto;
     overflow: hidden;
 }
@@ -10,6 +10,8 @@ body {
     width: 1000px;
     height: 200px;
     display: flex;
+    background-color: #121212;
+    opacity: 0;
 }
 
 #div-cover {
@@ -17,13 +19,7 @@ body {
     z-index: 100;
     background-color: #121212;
 
-    /* Display cover on the 0: left side / 1: right side */
     order: 0;
-}
-
-#div-song {
-    width: 80%;
-    z-index: -100;
 }
 
 #cover {
@@ -31,6 +27,7 @@ body {
 }
 
 #div-song {
+    width: 80%;
     display: flex;
     flex-direction: column;
 }
@@ -97,11 +94,16 @@ span {
 
 .scrolling {
     animation: slide 20s linear infinite;
+    animation-delay: -10s;
 }
 
 @keyframes slide {
     0% {
         transform: translateX(100%);
+    }
+
+    50% {
+        transform: translateX(0%);
     }
 
     100% {
