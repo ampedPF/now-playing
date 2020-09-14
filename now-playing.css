@@ -110,3 +110,144 @@ span {
         transform: translateX(-100%);
     }
 }
+
+/* fadeIn, slideInUp, slideInDown, slideInRight, slideInLeft */
+.animateIn {
+    /*animation:
+         slideInRight 0.5s,
+        hold 4.5s 0.5s,
+        slideOutUp 0.5s 5s; */
+
+    animation: slideInRight 0.5s;
+}
+
+/* fadeOut, slideOutDown, slideOutUp, slideOutLeft, slideOutRight */
+.animateOut {
+    animation: slideOutRight 0.5s;
+}
+
+@keyframes hold {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes slideInUp {
+    0% {
+        transform: translateY(75%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutDown {
+    0% {
+        transform: none;
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(75%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInDown {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutUp {
+    0% {
+        transform: none;
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutLeft {
+    0% {
+        transform: none;
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    0% {
+        transform: none;
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
