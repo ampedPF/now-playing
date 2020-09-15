@@ -1,5 +1,9 @@
-let newTitle, newArtist, newAlbum = "";
-let oldTitle, oldArtist, oldAlbum = "";
+var newTitle = "";
+var newArtist = "";
+var newAlbum = "";
+var oldTitle = "";
+var noldArtist = "";
+var noldAlbum = "";
 var visible = false;
 var shown = false;
 
@@ -11,6 +15,8 @@ var coverPath = "./data/np_cover.png";
 var maxTitleLength = 30;
 var maxArtistLength = 40;
 var maxAlbumLength = 50;
+var scrollingDelay = 1500;
+
 
 function updateText() {
   document.getElementById("title").innerHTML = newTitle;
@@ -36,7 +42,7 @@ function animateText(elem, text, maxLength) {
     if (text.length > maxLength) {
       setTimeout(() => {
         elem.addClass("scrolling");
-      }, 1500);
+      }, scrollingDelay);
     }
     elem.fadeIn(500).promise().done(function () {
       elem.css("opacity", "1");
@@ -48,6 +54,13 @@ function showText() {
   animateText($("#title"), newTitle, maxTitleLength);
   animateText($("#artist"), newArtist, maxArtistLength);
   animateText($("#album"), newAlbum, maxAlbumLength);
+}
+
+
+function getAnimationDelay(containerCss, index) {
+  let animationDelay = containerCss.animationDelay.split(',')[index].slice(0, -1);
+  let animationDuration = containerCss.animationDuration.split(',')[index].slice(0, -1);
+  return (parseFloat(animationDelay) + parseFloat(animationDuration)) * 1000;
 }
 
 function displayData() {
@@ -70,11 +83,9 @@ function displayData() {
     $("#container").css("opacity", "0");
     visible = false;
     shown = false;
+
     containerCss = getComputedStyle(document.querySelector("#container"));
-    let animationDelay = containerCss.animationDelay.slice(0, -1);
-    let animationDuration = containerCss.animationDuration.slice(0, -1);
-    animationTimer = (parseFloat(animationDelay) + parseFloat(animationDuration)) * 1000;
-    // console.log(animationTimer);
+    animationTimer = getAnimationDelay(containerCss, 0);
     setTimeout(function () {
       $("#container").removeClass("animateOut");
     }, animationTimer);
@@ -82,36 +93,26 @@ function displayData() {
 
   if (dataValidated) {
     if (!visible && !shown) {
-      let containerCss = getComputedStyle(document.querySelector("#container"))
-      if (containerCss) {
-        var cont = document.querySelector("#container");
-        var newc = cont.cloneNode(true);
-        cont.parentNode.replaceChild(newc, cont);
+      var containerEl = document.querySelector("#container");
+      if (getComputedStyle(containerEl)) {
+        var newc = containerEl.cloneNode(true);
+        containerEl.parentNode.replaceChild(newc, containerEl);
         $("#container").addClass("animateIn");
         visible = true;
         shown = true;
-        containerCss = getComputedStyle(document.querySelector("#container"))
-        // console.log(containerCss.animationName);
+        containerCss = getComputedStyle(document.querySelector("#container"));
         if (containerCss.animationName.indexOf(',') > 0) {
-          let holdDelay = containerCss.animationDelay.split(',')[1].slice(0, -1);
-          let holdDuration = containerCss.animationDuration.split(',')[1].slice(0, -1);
-          holdTimer = (parseFloat(holdDelay) + parseFloat(holdDuration)) * 1000;
-          // console.log(holdTimer);
+          holdTimer = getAnimationDelay(containerCss, 1);
           setTimeout(function () {
             $("#container").css("opacity", "0");
           }, holdTimer);
           visible = false;
         } else {
-          // console.log("fixed anim")
-          let animationDelay = containerCss.animationDelay.slice(0, -1);
-          let animationDuration = containerCss.animationDuration.slice(0, -1);
-          animationTimer = (parseFloat(animationDelay) + parseFloat(animationDuration)) * 1000;
-          // console.log(animationTimer);
+          animationTimer = getAnimationDelay(containerCss, 0);
           setTimeout(function () {
             $("#container").removeClass("animateIn");
+            $("#container").css("opacity", "1");
           }, animationTimer);
-          $("#container").css("opacity", "1");
-          visible = true;
         }
       }
     }
