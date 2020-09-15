@@ -4,8 +4,10 @@ var newAlbum = "";
 var oldTitle = "";
 var noldArtist = "";
 var noldAlbum = "";
+
 var visible = false;
 var shown = false;
+var displayPreviousSongInfo = false;
 
 var artistPath = "./data/np_artist.txt";
 var albumPath = "./data/np_album.txt";
@@ -17,11 +19,21 @@ var maxArtistLength = 40;
 var maxAlbumLength = 50;
 var scrollingDelay = 1500;
 
+function getInlineSongInfo(artist, title, album) {
+  return artist + " - " + title + " [" + album + "]";
+}
+
+function previousSongInfoValidated() {
+  return !(oldArtist.length == 0 || oldTitle.length == 0 || oldAlbum.length == 0)
+}
 
 function updateText() {
   document.getElementById("title").innerHTML = newTitle;
   document.getElementById("artist").innerHTML = newArtist;
   document.getElementById("album").innerHTML = newAlbum;
+  if (previousSongInfoValidated()) {
+    document.getElementById("previous").innerHTML = getInlineSongInfo(oldArtist, oldTitle, oldAlbum);
+  }
 }
 
 function resetText(elem) {
@@ -117,8 +129,15 @@ function displayData() {
       }
     }
     if (dataChanged) {
-      console.log("previous song: " + oldArtist + " - " + oldTitle + " [" + oldAlbum + "]");
-      console.log("current song: " + newArtist + " - " + newTitle + " [" + newAlbum + "]");
+      console.log("previous song:", getInlineSongInfo(oldArtist, oldTitle, oldAlbum));
+      if (displayPreviousSongInfo && previousSongInfoValidated()) {
+        $("#div-previous-row").css("opacity", "1");
+      } else {
+        $("#div-previous-row").css("opacity", "0");
+      }
+
+
+      console.log("current song:", getInlineSongInfo(newArtist, newTitle, newAlbum));
       hideText();
       setTimeout(updateText, 300);
       setTimeout(showText, 400);
@@ -148,4 +167,9 @@ function checkUpdate() {
   setTimeout(checkUpdate, 1000);
 }
 
-$(document).ready(checkUpdate);
+function main() {
+  displayPreviousSongInfo = getComputedStyle(document.querySelector("#div-previous-row")).opacity != 0 ? true : false;
+  checkUpdate();
+}
+
+$(document).ready(main);

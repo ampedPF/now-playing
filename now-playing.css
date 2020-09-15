@@ -7,10 +7,44 @@ body {
 }
 
 #container {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
     width: 1000px;
+    height: 240px;
+}
+
+#div-previous-row {
+    height: 40px;
+    width: 100%;
+    opacity: 1;
+    background-color: #121212;
+    display: flex;
+    order: 1;
+    margin-left: auto;
+}
+
+#div-previous-prefix {
+    padding: 1% 0% 1% 1%;
+}
+
+#div-previous {
+    padding: 1% 1% 1% 1%;
+}
+
+#previous,
+#previous-prefix {
+    color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif;
+}
+
+#div-current {
     height: 200px;
     display: flex;
-    opacity: 0;
+    order: 0;
 }
 
 #div-cover {
@@ -66,7 +100,12 @@ span {
     white-space: nowrap;
 }
 
-#title {
+#title-prefix {
+    display: none;
+}
+
+#title,
+#title-prefix {
     color: #ffffff;
     font-weight: bold;
     font-size: 48px;
@@ -74,7 +113,12 @@ span {
     text-align: right;
 }
 
-#artist {
+#artist-prefix {
+    display: none;
+}
+
+#artist,
+#artist-prefix {
     color: #707070;
     text-transform: uppercase;
     font-weight: 600;
@@ -83,7 +127,12 @@ span {
     font-family: "Helvetica Neue", sans-serif;
 }
 
-#album {
+#album-prefix {
+    display: none;
+}
+
+#album,
+#album-prefix {
     color: #7b7ba7;
     font-weight: 600;
     font-size: 32px;
