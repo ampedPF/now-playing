@@ -4,7 +4,7 @@ TITLE=./data/np_title.txt
 
 LONG_ALBUM="Black Mirror - White Bear (Original Television Soundtrack)"
 LONG_ARTIST="League of Legends, The Crystal Method, Dada Life"
-LONG_TITLE="The Lights in the Sky Are Our Guides"
+LONG_TITLE="The Lights in the Sky Are Our Guides Or Are They ?"
 
 NORM_ALBUM="Warsongs"
 NORM_ARTIST="League of Legends, MitiS"
@@ -16,7 +16,7 @@ clean:
 run server:
 		http-server -o ./now-playing.html -c-1
 
-norm normal start:
+norm normal start short:
 		echo $(NORM_ALBUM) > $(ALBUM) && echo $(NORM_ARTIST) > $(ARTIST) && echo $(NORM_TITLE) > $(TITLE)
 
 nal normal_album album al:

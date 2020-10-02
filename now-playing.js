@@ -1,38 +1,78 @@
-var newTitle = "";
-var newArtist = "";
-var newAlbum = "";
-var oldTitle = "";
-var noldArtist = "";
-var noldAlbum = "";
+var current = {};
+current.title = "";
+current.artist = "";
+current.album = "";
 
+var previous = {};
+previous.title = "";
+previous.artist = "";
+previous.album = "";
+
+var dataValidated = false;
+var dataChanged = false;
 var visible = false;
 var shown = false;
 var displayPreviousSongInfo = false;
 
-var artistPath = "./data/np_artist.txt";
-var albumPath = "./data/np_album.txt";
-var titlePath = "./data/np_title.txt";
-var coverPath = "./data/np_cover.png";
+var filepaths = {};
+// filepaths.info = "./data/np_info.json";
+filepaths.artist = "./data/np_artist.txt";
+filepaths.album = "./data/np_album.txt";
+filepaths.title = "./data/np_title.txt";
+filepaths.cover = "./data/np_cover.png";
 
-var maxTitleLength = 30;
-var maxArtistLength = 40;
-var maxAlbumLength = 50;
+var maxLength = {};
+maxLength.title = 30;
+maxLength.artist = 35;
+maxLength.album = 50;
+maxLength.previous = 38;
+
 var scrollingDelay = 1500;
+var first_previous = true;
+
+// function resetInfo() {
+//   return {
+//     "artist": "",
+//     "album": "",
+//     "disc_number": "",
+//     "full_release_date": "",
+//     "release_year": "",
+//     "song_label": "",
+//     "song_progress": "",
+//     "song_length": "",
+//     "time_left": "",
+//     "title": "",
+//     "track_number": ""
+//   };
+// }
+
+function truncate(str, n) {
+  var subString = "";
+  if (str.length > n) {
+    subString = str.substr(0, n - 1);
+    subString = subString.substr(0, subString.lastIndexOf(" "));
+    str = (subString.endsWith(",")) ? subString.substr(0, subString.lastIndexOf(",")) + '&hellip;' : subString + '&hellip;';
+  }
+  return str;
+};
 
 function getInlineSongInfo(artist, title, album) {
-  return artist + " - " + title + " [" + album + "]";
+  if (!album) {
+    return `${artist} – ${title}`;
+  }
+  return `${artist} – ${title} [${album}]`;
 }
 
 function previousSongInfoValidated() {
-  return !(oldArtist.length == 0 || oldTitle.length == 0 || oldAlbum.length == 0)
+  return !(previous.artist.length == 0 || previous.title.length == 0 || previous.album.length == 0)
 }
 
 function updateText() {
-  document.getElementById("title").innerHTML = newTitle;
-  document.getElementById("artist").innerHTML = newArtist;
-  document.getElementById("album").innerHTML = newAlbum;
+  document.getElementById("title").innerHTML = current.title;
+  document.getElementById("artist").innerHTML = current.artist;
+  document.getElementById("album").innerHTML = current.album;
   if (previousSongInfoValidated()) {
-    document.getElementById("previous").innerHTML = getInlineSongInfo(oldArtist, oldTitle, oldAlbum);
+    document.getElementById("previous").innerHTML = getInlineSongInfo(truncate(previous.artist, maxLength.previous), truncate(previous.title, maxLength.previous));
   }
 }
 
@@ -47,6 +87,7 @@ function hideText() {
   resetText($("#title"));
   resetText($("#artist"));
   resetText($("#album"));
+  resetText($("#previous"));
 }
 
 function animateText(elem, text, maxLength) {
@@ -63,9 +104,10 @@ function animateText(elem, text, maxLength) {
 }
 
 function showText() {
-  animateText($("#title"), newTitle, maxTitleLength);
-  animateText($("#artist"), newArtist, maxArtistLength);
-  animateText($("#album"), newAlbum, maxAlbumLength);
+  animateText($("#title"), current.title, maxLength.title);
+  animateText($("#artist"), current.artist, maxLength.artist);
+  animateText($("#album"), current.album, maxLength.album);
+  animateText($("#previous"), getInlineSongInfo(previous.artist, previous.title, previous.album), maxLength.previous);
 }
 
 
@@ -75,32 +117,37 @@ function getAnimationDelay(containerCss, index) {
   return (parseFloat(animationDelay) + parseFloat(animationDuration)) * 1000;
 }
 
-function displayData() {
-  var dataValidated = false;
-  var dataChanged = false;
+function hideContainer() {
+  $("#container").addClass("animateOut");
+  $("#container").css("opacity", "0");
 
-  if (newTitle.length > 1 && newArtist.length > 1 && newAlbum.length > 1) {
+  containerCss = getComputedStyle(document.querySelector("#container"));
+  animationTimer = getAnimationDelay(containerCss, 0);
+  setTimeout(function () {
+    $("#container").removeClass("animateOut");
+  }, animationTimer);
+}
+
+function displayData() {
+  dataValidated = false;
+  dataChanged = false;
+
+  if (current.title.length > 1 && current.artist.length > 1 && current.album.length > 1) {
     dataValidated = true;
   }
-  if (newTitle != document.getElementById("title").innerHTML || newArtist != document.getElementById("artist").innerHTML || newAlbum != document.getElementById("album").innerHTML) {
-    oldTitle = document.getElementById("title").innerText;
-    oldArtist = document.getElementById("artist").innerHTML;
-    oldAlbum = document.getElementById("album").innerHTML;
+
+  if (current.title != document.getElementById("title").innerHTML || current.artist != document.getElementById("artist").innerHTML || current.album != document.getElementById("album").innerHTML) {
+    previous.title = document.getElementById("title").innerText;
+    previous.artist = document.getElementById("artist").innerHTML;
+    previous.album = document.getElementById("album").innerHTML;
     dataChanged = true;
     shown = false;
   }
 
   if (!dataValidated && visible) {
-    $("#container").addClass("animateOut");
-    $("#container").css("opacity", "0");
+    hideContainer();
     visible = false;
     shown = false;
-
-    containerCss = getComputedStyle(document.querySelector("#container"));
-    animationTimer = getAnimationDelay(containerCss, 0);
-    setTimeout(function () {
-      $("#container").removeClass("animateOut");
-    }, animationTimer);
   }
 
   if (dataValidated) {
@@ -110,6 +157,7 @@ function displayData() {
         var newc = containerEl.cloneNode(true);
         containerEl.parentNode.replaceChild(newc, containerEl);
         $("#container").addClass("animateIn");
+        $("#container").css("opacity", "1");
         visible = true;
         shown = true;
         containerCss = getComputedStyle(document.querySelector("#container"));
@@ -117,8 +165,8 @@ function displayData() {
           holdTimer = getAnimationDelay(containerCss, 1);
           setTimeout(function () {
             $("#container").css("opacity", "0");
+            visible = false;
           }, holdTimer);
-          visible = false;
         } else {
           animationTimer = getAnimationDelay(containerCss, 0);
           setTimeout(function () {
@@ -129,20 +177,30 @@ function displayData() {
       }
     }
     if (dataChanged) {
-      console.log("previous song:", getInlineSongInfo(oldArtist, oldTitle, oldAlbum));
+      console.log("previous song:", getInlineSongInfo(previous.artist, previous.title, previous.album));
       if (displayPreviousSongInfo && previousSongInfoValidated()) {
+        if (first_previous) {
+          setTimeout(function () {
+            $("#div-previous-row").fadeIn(300);
+          }, 300);
+          first_previous = false;
+        } else {
+          $("#div-previous-prefix").fadeOut(300, function () {
+            $("#div-previous-prefix").fadeIn(300);
+          });
+        }
         $("#div-previous-row").css("opacity", "1");
       } else {
         $("#div-previous-row").css("opacity", "0");
       }
 
 
-      console.log("current song:", getInlineSongInfo(newArtist, newTitle, newAlbum));
+      console.log("current song:", getInlineSongInfo(current.artist, current.title, current.album));
       hideText();
       setTimeout(updateText, 300);
       setTimeout(showText, 400);
       $("#cover").fadeOut(300, function () {
-        document.getElementById("cover").src = coverPath + "?t=" + newTitle + newArtist;
+        document.getElementById("cover").src = filepaths.cover + "?t=" + current.title + current.artist;
         $("#cover").fadeIn(300);
       });
     }
@@ -150,19 +208,27 @@ function displayData() {
 
 }
 
+function cleanString(str) {
+  return str.replace(/&/g, "&amp;").replace(/(\r\n|\n|\r)/gm, "");
+}
+
 function checkUpdate() {
-  $.get(titlePath, function (title) {
-      newTitle = title.replace(/&/g, "&amp;");
-    })
-    .then(
-      $.get(artistPath, function (artist) {
-        newArtist = artist.replace(/&/g, "&amp;");
-      }))
-    .then(
-      $.get(albumPath, function (album) {
-        newAlbum = album.replace(/&/g, "&amp;");
-      }))
-    .then(displayData);
+
+  $.when(
+    $.get(filepaths.title, res => current.title = cleanString(res)),
+    $.get(filepaths.artist, res => current.artist = cleanString(res)),
+    $.get(filepaths.album, res => current.album = cleanString(res))
+  ).done(displayData);
+
+  // $.getJSON(filepaths.info, function (data) {
+  //   current = data;
+  //   dataChanged = true;
+
+  // }).fail(function () {
+  //   //console.log("An error has occurred.");
+  //   current = resetInfo();
+  //   displayData();
+  // }).then(displayData);
 
   setTimeout(checkUpdate, 1000);
 }

@@ -6,44 +6,63 @@ body {
     overflow: hidden;
 }
 
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 #container {
     display: flex;
     flex-direction: column;
     opacity: 0;
-    width: 1000px;
     height: 240px;
+    width: 1000px;
 }
 
 #div-previous-row {
     height: 40px;
-    width: 100%;
+    width: 1000px;
     opacity: 1;
     background-color: #121212;
     display: flex;
+    align-items: center;
     order: 1;
-    margin-left: auto;
 }
 
-#div-previous-prefix {
-    padding: 1% 0% 1% 1%;
+#div-previous-row>div {
+    overflow: hidden;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 #div-previous {
-    padding: 1% 1% 1% 1%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#div-previous-prefix {
+    order: 0;
+}
+
+#div-previous {
+    order: 1;
 }
 
 #previous,
 #previous-prefix {
     color: #fff;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: bold;
     font-family: "Roboto", sans-serif;
 }
 
+
 #div-current {
     height: 200px;
     display: flex;
+    z-index: -2;
     order: 0;
 }
 
@@ -62,14 +81,16 @@ body {
 #div-song {
     width: 80%;
     display: flex;
-    background-color: #121212;
     flex-direction: column;
+    box-shadow: inset -19px 0px 3px -3px #121212, inset 19px 0px 3px -3px #121212;
 }
 
 #div-song>div {
     padding-left: 2%;
     padding-right: 2%;
     overflow: hidden;
+    background-color: #121212;
+    z-index: -2;
 }
 
 #div-title {
@@ -100,12 +121,7 @@ span {
     white-space: nowrap;
 }
 
-#title-prefix {
-    display: none;
-}
-
-#title,
-#title-prefix {
+#title {
     color: #ffffff;
     font-weight: bold;
     font-size: 48px;
@@ -113,12 +129,7 @@ span {
     text-align: right;
 }
 
-#artist-prefix {
-    display: none;
-}
-
-#artist,
-#artist-prefix {
+#artist{
     color: #707070;
     text-transform: uppercase;
     font-weight: 600;
@@ -127,12 +138,7 @@ span {
     font-family: "Helvetica Neue", sans-serif;
 }
 
-#album-prefix {
-    display: none;
-}
-
-#album,
-#album-prefix {
+#album {
     color: #7b7ba7;
     font-weight: 600;
     font-size: 32px;
@@ -162,17 +168,12 @@ span {
 
 /* fadeIn, slideInUp, slideInDown, slideInRight, slideInLeft */
 .animateIn {
-    /*animation:
-         slideInRight 0.5s,
-        hold 4.5s 0.5s,
-        slideOutUp 0.5s 5s; */
-
     animation: slideInRight 0.5s;
 }
 
 /* fadeOut, slideOutDown, slideOutUp, slideOutLeft, slideOutRight */
 .animateOut {
-    animation: slideOutRight 0.5s;
+    animation: slideOutLeft 0.5s;
 }
 
 @keyframes hold {
