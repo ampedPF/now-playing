@@ -1,8 +1,8 @@
 # Now Playing
 
-This widget displays currently playing song with information fetched by [Tuna](https://obsproject.com/forum/resources/tuna.843/) plugin for OBS.
+This widget displays currently playing song with information fetched by [Tuna 1.5.1](https://obsproject.com/forum/resources/tuna.843/) plugin for OBS 26.0.
 
-Its style and animation can be tinkered with right from the browser source properties window.
+Its style and animation can be tinkered with right from the browser source properties window in OBS.
 
 ## Preview
 
@@ -18,7 +18,7 @@ Its style and animation can be tinkered with right from the browser source prope
 
 ## Installation
 
-After installing the OBS plugin [Tuna v1.5.0](https://obsproject.com/forum/resources/tuna.843/) (currently working with version [nightly-ec8cd3f](https://github.com/univrsal/tuna/actions/runs/274047007)) following the steps described [here](https://obsproject.com/forum/resources/tuna.843/).
+After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resources/tuna.843/) following the steps described [here](https://obsproject.com/forum/resources/tuna.843/).
 
 1. Add a new browser source
 2. Check the "Local file" checkbox and then browse to the ```now-playing.html``` file
