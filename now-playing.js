@@ -208,16 +208,20 @@ function checkUpdate() {
     .then(response => response.json())
     .then(data => {
       current.artist = '';
-      var array = data['artists'];
-      for (var i = 0; i < array.length; i++) {
-        current.artist += array[i];
-        if(i < array.length - 1)
-          current.artist += ', ';
-      }
-      current.artist = cleanString(current.artist);
+      current.title = '';
+      current.album = '';
+      if (data['status'] == 'playing') {
+        var array = data['artists'];
+        for (var i = 0; i < array.length; i++) {
+          current.artist += array[i];
+          if(i < array.length - 1)
+            current.artist += ', ';
+        }
+        current.artist = cleanString(current.artist);
 
-      current.title = cleanString(data['title']);
-      current.album = cleanString(data['album']);
+        current.title = cleanString(data['title']);
+        current.album = cleanString(data['album']);
+      }
     })
     .then(displayData)
     .catch(function() {
