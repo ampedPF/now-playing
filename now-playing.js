@@ -1,3 +1,16 @@
+loadInfoFromServer = false;
+tunaServerAddr = 'http://localhost:1608';
+updateRefreshRate = 500;
+
+var filepaths = {};
+filepaths.artist = "./data/np_artist.txt";
+filepaths.album = "./data/np_album.txt";
+filepaths.title = "./data/np_title.txt";
+filepaths.cover = "./data/np_cover.png";
+
+var scrollingDelay = 1500;
+
+
 var current = {};
 current.title = "";
 current.artist = "";
@@ -14,12 +27,6 @@ var visible = false;
 var shown = false;
 var displayPreviousSongInfo = false;
 
-var filepaths = {};
-// filepaths.info = "./data/np_info.json";
-filepaths.artist = "./data/np_artist.txt";
-filepaths.album = "./data/np_album.txt";
-filepaths.title = "./data/np_title.txt";
-filepaths.cover = "./data/np_cover.png";
 
 var maxLength = {};
 maxLength.title = 30;
@@ -27,24 +34,7 @@ maxLength.artist = 35;
 maxLength.album = 50;
 maxLength.previous = 38;
 
-var scrollingDelay = 1500;
 var first_previous = true;
-
-// function resetInfo() {
-//   return {
-//     "artist": "",
-//     "album": "",
-//     "disc_number": "",
-//     "full_release_date": "",
-//     "release_year": "",
-//     "song_label": "",
-//     "song_progress": "",
-//     "song_length": "",
-//     "time_left": "",
-//     "title": "",
-//     "track_number": ""
-//   };
-// }
 
 function truncate(str, n) {
   var subString = "";
@@ -213,13 +203,33 @@ function cleanString(str) {
 }
 
 function checkUpdate() {
+  if(loadInfoFromServer) {
+    fetch(tunaServerAddr)
+    .then(response => response.json())
+    .then(data => {
+      current.artist = '';
+      var array = data['artists'];
+      for (var i = 0; i < array.length; i++) {
+        current.artist += array[i];
+        if(i < array.length - 1)
+          current.artist += ', ';
+      }
+      current.artist = cleanString(current.artist);
 
-  $.when(
-    $.get(filepaths.title, res => current.title = cleanString(res)),
-    $.get(filepaths.artist, res => current.artist = cleanString(res)),
-    $.get(filepaths.album, res => current.album = cleanString(res))
-  ).done(displayData);
-
+      current.title = cleanString(data['title']);
+      current.album = cleanString(data['album']);
+    })
+    .then(displayData)
+    .catch(function() {
+      console.log(`An error has occurred. Check if Tuna is running and serving json on ${tunaServerAddr}`);
+    })
+  } else {
+      $.when(
+        $.get(filepaths.title, res => current.title = cleanString(res)),
+        $.get(filepaths.artist, res => current.artist = cleanString(res)),
+        $.get(filepaths.album, res => current.album = cleanString(res)))
+      .done(displayData);
+  }
   // $.getJSON(filepaths.info, function (data) {
   //   current = data;
   //   dataChanged = true;
@@ -230,7 +240,7 @@ function checkUpdate() {
   //   displayData();
   // }).then(displayData);
 
-  setTimeout(checkUpdate, 1000);
+  setTimeout(checkUpdate, updateRefreshRate);
 }
 
 function main() {

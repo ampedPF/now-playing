@@ -1,12 +1,24 @@
 # Now Playing
 
-This widget displays currently playing song with information fetched by [Tuna 1.5.1](https://obsproject.com/forum/resources/tuna.843/) plugin for OBS 26.0.
+This widget displays currently playing song with information fetched by [Tuna](https://obsproject.com/forum/resources/tuna.843/) plugin for OBS 26.0.
 
 Its style and animation can be tinkered with right from the browser source properties window in OBS.
 
 ## Preview
 
 https://streamable.com/its9om
+
+## Fetching info from Tuna Webserver
+
+Starting plugin version 1.5.2, Tuna now can host song information on local webserver with default port ```1608```.
+Just make sure to check the checkbox on the Basics tab of Tuna settings window.
+
+Then in now-playing.js, configure as necessary.
+
+```js
+loadInfoFromServer = true;
+tunaServerAddr = 'http://localhost:1608';
+```
 
 ## File location
 
@@ -19,7 +31,7 @@ https://streamable.com/its9om
 
 ## Installation
 
-After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resources/tuna.843/) following the steps described [here](https://obsproject.com/forum/resources/tuna.843/).
+After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resources/tuna.843/) or later following the steps described [here](https://obsproject.com/forum/resources/tuna.843/).
 
 1. Add a new browser source
 2. Check the "Local file" checkbox and then browse to the ```now-playing.html``` file
@@ -36,7 +48,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     #div-current { order: 0 }       /* 0: Top row */
     #div-previous-row { order: 1; } /* 1: Bottom row */
     /* Set 'opacity' to 0 in order to disable completely the "previous track" feature */
-    #div-previous-row {  background-color: #121212dd; opacity: 1; }
+    #div-previous-row { background-color: #121212dd; opacity: 1; }
 
     /*:::::::        Cover/song info display order       :::::::*/
     #div-cover { order: 0; }  /* 0: Left side | 1: Right side */
