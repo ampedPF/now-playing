@@ -1,4 +1,4 @@
-loadInfoFromServer = false;
+loadInfoFromServer = true;
 tunaServerAddr = 'http://localhost:1608';
 updateRefreshRate = 500;
 
@@ -60,9 +60,11 @@ function previousSongInfoValidated() {
 function updateText() {
   document.getElementById("title").innerHTML = current.title;
   document.getElementById("artist").innerHTML = current.artist;
-  document.getElementById("album").innerHTML = current.album;
+  $("#title").text(current.title);
+  $("#artist").text(current.artist);
+  $("#album").text(current.album);
   if (previousSongInfoValidated()) {
-    document.getElementById("previous").innerHTML = getInlineSongInfo(truncate(previous.artist, maxLength.previous), truncate(previous.title, maxLength.previous));
+    $("#previous").text(getInlineSongInfo(truncate(previous.artist, maxLength.previous), truncate(previous.title, maxLength.previous)));
   }
 }
 
@@ -126,10 +128,11 @@ function displayData() {
     dataValidated = true;
   }
 
-  if (current.title != document.getElementById("title").innerHTML || current.artist != document.getElementById("artist").innerHTML || current.album != document.getElementById("album").innerHTML) {
-    previous.title = document.getElementById("title").innerText;
-    previous.artist = document.getElementById("artist").innerHTML;
-    previous.album = document.getElementById("album").innerHTML;
+  if (current.title != $("#title").text() || current.artist != $("#artist").text() || current.album != $("#album").text()) {
+    previous.title = $("#title").text();
+    previous.artist = $("#artist").text();
+    previous.album = $("#album").text();
+    // console.log(current.album, " vs ", previous.album);
     dataChanged = true;
     shown = false;
   }
@@ -167,7 +170,7 @@ function displayData() {
       }
     }
     if (dataChanged) {
-      console.log("previous song:", getInlineSongInfo(previous.artist, previous.title, previous.album));
+      // console.log("previous song:", getInlineSongInfo(previous.artist, previous.title, previous.album));
       if (displayPreviousSongInfo && previousSongInfoValidated()) {
         if (first_previous) {
           setTimeout(function () {
@@ -185,7 +188,7 @@ function displayData() {
       }
 
 
-      console.log("current song:", getInlineSongInfo(current.artist, current.title, current.album));
+      // console.log("current song:", getInlineSongInfo(current.artist, current.title, current.album));
       hideText();
       setTimeout(updateText, 300);
       setTimeout(showText, 400);
@@ -203,32 +206,33 @@ function cleanString(str) {
 }
 
 function checkUpdate() {
-  if(loadInfoFromServer) {
+  if (loadInfoFromServer) {
     fetch(tunaServerAddr)
-    .then(response => response.json())
-    .then(data => {
-      current.artist = '';
-      current.title = '';
-      current.album = '';
-      if (data['status'] == 'playing') {
-        var array = data['artists'];
-        for (var i = 0; i < array.length; i++) {
-          current.artist += array[i];
-          if(i < array.length - 1)
-            current.artist += ', ';
-        }
-        current.artist = cleanString(current.artist);
+      .then(response => response.json())
+      .then(data => {
+        current.artist = '';
+        current.title = '';
+        current.album = '';
+        if (data['status'] == 'playing') {
+          var array = data['artists'];
+          for (var i = 0; i < array.length; i++) {
+            current.artist += array[i];
+            if (i < array.length - 1)
+              current.artist += ', ';
+          }
+          current.artist = cleanString(current.artist);
 
-        current.title = cleanString(data['title']);
-        current.album = cleanString(data['album']);
-      }
-    })
-    .then(displayData)
-    .catch(function() {
-      console.log(`An error has occurred. Check if Tuna is running and serving json on ${tunaServerAddr}`);
-    })
+          current.title = cleanString(data['title']);
+          current.album = cleanString(data['album']);
+          // console.log(data['album'], "cleaned to:", current.album);
+        }
+      })
+      .then(displayData)
+      .catch(function () {
+        console.log(`An error has occurred. Check if Tuna is running and serving json on ${tunaServerAddr}`);
+      })
   } else {
-      $.when(
+    $.when(
         $.get(filepaths.title, res => current.title = cleanString(res)),
         $.get(filepaths.artist, res => current.artist = cleanString(res)),
         $.get(filepaths.album, res => current.album = cleanString(res)))
