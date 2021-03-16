@@ -1,6 +1,6 @@
 loadInfoFromServer = true;
 tunaServerAddr = 'http://localhost:1608';
-updateRefreshRate = 500;
+updateRefreshRate = 100;
 
 var filepaths = {};
 filepaths.artist = "./data/np_artist.txt";
@@ -15,6 +15,9 @@ var current = {};
 current.title = "";
 current.artist = "";
 current.album = "";
+current.duration = 0;
+current.progress = 0;
+current.time_left = 0;
 
 var previous = {};
 previous.title = "";
@@ -37,24 +40,25 @@ maxLength.previous = 38;
 var first_previous = true;
 
 function truncate(str, n) {
+  "use strict";
   var subString = "";
   if (str.length > n) {
     subString = str.substr(0, n - 1);
     subString = subString.substr(0, subString.lastIndexOf(" "));
-    str = (subString.endsWith(",")) ? subString.substr(0, subString.lastIndexOf(",")) + '&hellip;' : subString + '&hellip;';
+    str = (subString.endsWith(",")) ? subString.substr(0, subString.lastIndexOf(",")) + ' ...' : subString + ' ...';
   }
   return str;
-};
+}
 
 function getInlineSongInfo(artist, title, album) {
   if (!album) {
-    return `${artist} – ${title}`;
+    return artist + " – " + title;
   }
-  return `${artist} – ${title} [${album}]`;
+  return artist + " – " + title + " [" + album + "]";
 }
 
 function previousSongInfoValidated() {
-  return !(previous.artist.length == 0 || previous.title.length == 0 || previous.album.length == 0)
+  return !(previous.artist.length == 0 || previous.title.length == 0 || previous.album.length == 0);
 }
 
 function updateText() {
@@ -102,6 +106,11 @@ function showText() {
   animateText($("#previous"), getInlineSongInfo(previous.artist, previous.title, previous.album), maxLength.previous);
 }
 
+function updateProgressBar() {
+  var current_progress = current.progress / current.duration * 100;
+  //console.log(current_progress);
+  document.getElementById("div-bar").style.width = current_progress + "%";
+}
 
 function getAnimationDelay(containerCss, index) {
   let animationDelay = containerCss.animationDelay.split(',')[index].slice(0, -1);
@@ -132,7 +141,6 @@ function displayData() {
     previous.title = $("#title").text();
     previous.artist = $("#artist").text();
     previous.album = $("#album").text();
-    // console.log(current.album, " vs ", previous.album);
     dataChanged = true;
     shown = false;
   }
@@ -170,7 +178,6 @@ function displayData() {
       }
     }
     if (dataChanged) {
-      // console.log("previous song:", getInlineSongInfo(previous.artist, previous.title, previous.album));
       if (displayPreviousSongInfo && previousSongInfoValidated()) {
         if (first_previous) {
           setTimeout(function () {
@@ -187,8 +194,6 @@ function displayData() {
         $("#div-previous-row").css("opacity", "0");
       }
 
-
-      // console.log("current song:", getInlineSongInfo(current.artist, current.title, current.album));
       hideText();
       setTimeout(updateText, 300);
       setTimeout(showText, 400);
@@ -197,12 +202,13 @@ function displayData() {
         $("#cover").fadeIn(300);
       });
     }
+    setTimeout(updateProgressBar, 100);
   }
 
 }
 
 function cleanString(str) {
-  return str.replace(/&/g, "&amp;").replace(/(\r\n|\n|\r)/gm, "");
+  return str.replace(/(\r\n|\n|\r)/gm, "");
 }
 
 function checkUpdate() {
@@ -213,18 +219,24 @@ function checkUpdate() {
         current.artist = '';
         current.title = '';
         current.album = '';
+        current.duration = 0;
+        current.progress = 0;
+        //current.time_left = 0;
         if (data['status'] == 'playing') {
-          var array = data['artists'];
-          for (var i = 0; i < array.length; i++) {
-            current.artist += array[i];
-            if (i < array.length - 1)
+          //var array = data['artists'];
+          for (var i = 0; i < data['artists'].length; i++) {
+            current.artist += data['artists'][i];
+            if (i < data['artists'].length - 1)
               current.artist += ', ';
           }
           current.artist = cleanString(current.artist);
 
           current.title = cleanString(data['title']);
           current.album = cleanString(data['album']);
-          // console.log(data['album'], "cleaned to:", current.album);
+
+          current.duration = data['duration'];
+          current.progress = data['progress'];
+          //current.time_left = data['time_left'];
         }
       })
       .then(displayData)
@@ -238,15 +250,6 @@ function checkUpdate() {
         $.get(filepaths.album, res => current.album = cleanString(res)))
       .done(displayData);
   }
-  // $.getJSON(filepaths.info, function (data) {
-  //   current = data;
-  //   dataChanged = true;
-
-  // }).fail(function () {
-  //   //console.log("An error has occurred.");
-  //   current = resetInfo();
-  //   displayData();
-  // }).then(displayData);
 
   setTimeout(checkUpdate, updateRefreshRate);
 }

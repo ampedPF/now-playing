@@ -58,8 +58,8 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
-
 #div-current {
+    background-color: #121212;
     height: 200px;
     display: flex;
     z-index: -2;
@@ -107,6 +107,22 @@ body {
     align-items: center;
 
     order: 1;
+}
+
+#div-progress {
+    margin-left: 2%;
+    margin-right: 2%;
+    padding-left: 0% !important;
+    padding-right: 0% !important;
+    width: 96%;
+    background-color: #535353 !important;
+    order: 1;
+}
+
+#div-bar {
+    height: 5px;
+    background-color: #b3b3b3;
+    /*#1db954*/
 }
 
 #div-album {
