@@ -47,10 +47,30 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
 
     /*:::::::                             Text fields fonts                              :::::::*/
-    #previous { font-family: "Roboto", sans-serif; } /* Imported font with the @import above */
-    #title    { font-family: "Helvetica Neue", sans-serif; }
-    #artist   { font-family: "Helvetica Neue", sans-serif; }
-    #album    { font-family: "Roboto", sans-serif; }
+    /* Imported font with the @import above */
+    #previous, #div-previous-prefix {
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: bold;
+        font-family: "Roboto", sans-serif; }
+
+    #title    {
+        color: #ffffff;
+        font-size: 48px;
+        font-weight: bold;
+        font-family: "Helvetica Neue", sans-serif; }
+
+    #artist   {
+        color: #707070;
+        text-transform: uppercase;
+        font-size: 36px;
+        font-weight: bold;
+        font-family: "Helvetica Neue", sans-serif; }
+    #album    {
+        color: #7b7ba7;
+        font-size: 32px;
+        font-weight: bold;
+        font-family: "Roboto", sans-serif; }
 
     /*:::::::                  Previous/current display order and style                  :::::::*/
     #div-current      { order: 0; }  /* 0: Top row    */
@@ -124,12 +144,31 @@ body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
 ```
 
 ### Text fields fonts
-
+The google font is imported font with the ```@import``` above
 ```css
-#previous { font-family: "Roboto", sans-serif; } /* Imported font with the @import above */
-#title    { font-family: "Helvetica Neue", sans-serif; }
-#artist   { font-family: "Helvetica Neue", sans-serif; }
-#album    { font-family: "Roboto", sans-serif; }
+#previous, #div-previous-prefix {
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: bold;
+        font-family: "Roboto", sans-serif; } 
+
+#title {
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: bold;
+    font-family: "Helvetica Neue", sans-serif; }
+
+#artist {
+    color: #707070;
+    text-transform: uppercase;
+    font-size: 36px;
+    font-weight: bold;
+    font-family: "Helvetica Neue", sans-serif; }
+#album {
+    color: #7b7ba7;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif; }
 ```
 
 ### Previous/current display order and style

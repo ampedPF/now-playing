@@ -49,9 +49,9 @@ body {
     order: 1;
 }
 
-#previous {
+#previous,
+#div-previous-prefix {
     color: #fff;
-    font-weight: 600;
     font-size: 24px;
     font-weight: bold;
     font-family: "Roboto", sans-serif;
@@ -138,8 +138,8 @@ span {
 
 #title {
     color: #ffffff;
-    font-weight: bold;
     font-size: 48px;
+    font-weight: bold;
     font-family: "Helvetica Neue", sans-serif;
     text-align: right;
 }
@@ -147,7 +147,6 @@ span {
 #artist {
     color: #707070;
     text-transform: uppercase;
-    font-weight: 600;
     font-size: 36px;
     font-weight: bold;
     font-family: "Helvetica Neue", sans-serif;
@@ -155,7 +154,6 @@ span {
 
 #album {
     color: #7b7ba7;
-    font-weight: 600;
     font-size: 32px;
     font-weight: bold;
     font-family: "Roboto", sans-serif;
