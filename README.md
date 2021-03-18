@@ -53,7 +53,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     #album    { font-family: "Roboto", sans-serif; }
 
     /*:::::::                  Previous/current display order and style                  :::::::*/
-    #div-current      { order: 0 }  /* 0: Top row    */
+    #div-current      { order: 0; }  /* 0: Top row    */
     #div-previous-row { order: 1; } /* 1: Bottom row */
     /* Set widget background color (behind the progress bar) */
     #div-current      { background-color: #121212; }
@@ -76,7 +76,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     #div-song     { box-shadow: inset -19px 0px 3px -3px #121212, inset 19px 0px 3px -3px #121212; }
 
     /*:::::::                             Progress bar style                             :::::::*/
-    #div-progress { background-color: #535353; !important }
+    #div-progress { background-color: #535353; !important; }
     #div-bar      { background-color: #b3b3b3; height: 5px; }
     /* Set to 'scaleX(-1)' to make the progress bar go from right to left.
        Default is left to right */
@@ -135,7 +135,7 @@ body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
 ### Previous/current display order and style
 
 ```css
-#div-current      { order: 0 }  /* 0: Top row */
+#div-current      { order: 0; }  /* 0: Top row */
 #div-previous-row { order: 1; } /* 1: Bottom row */
 ```
 
@@ -155,7 +155,7 @@ Set ```opacity``` to ```0``` in order to disable completely the "previous track"
 ### Progress bar style
 
 ```css
-#div-progress { background-color: #535353; !important }
+#div-progress { background-color: #535353; !important; }
 #div-bar      { background-color: #b3b3b3; height: 5px; }
 /* Set to 'scaleX(-1)' to make the progress bar go from right to left.
     Default is left to right */
