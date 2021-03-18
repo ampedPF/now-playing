@@ -6,14 +6,14 @@ Its style and animation can be tinkered with right from the browser source prope
 
 ## Preview
 
-https://streamable.com/its9om
+![preview](./preview.png)
 
 ## Fetching info from Tuna Webserver
 
 Starting plugin version 1.5.2, Tuna now can host song information on local webserver with default port ```1608```.
 Just make sure to check the checkbox on the Basics tab of Tuna settings window.
 
-Then in now-playing.js, configure as necessary.
+Then in ```now-playing.js```, configure as necessary.
 
 ```js
 loadInfoFromServer = true;
@@ -24,10 +24,10 @@ tunaServerAddr = 'http://localhost:1608';
 
 | Field  | Path |
 | ------------- | ------------- |
-| Title | ./data/np_title.txt |
-| Artist | ./data/np_artist.txt |
-| Album | ./data/np_album.txt |
-| Cover | ./data/np_cover.png |
+| Title | ```./data/np_title.txt``` |
+| Artist | ```./data/np_artist.txt``` |
+| Album | ```./data/np_album.txt``` |
+| Cover | ```./data/np_cover.png``` |
 
 ## Installation
 
