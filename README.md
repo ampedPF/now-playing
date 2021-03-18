@@ -41,8 +41,16 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     <summary>Copy this to the Custom CSS panel</summary>
   
     ```css
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
     /*:::::::                        Default OBS custom css value                        :::::::*/
     body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
+
+    /*:::::::                             Text fields fonts                              :::::::*/
+    #previous { font-family: "Roboto", sans-serif; } /* Imported font with the @import above */
+    #title    { font-family: "Helvetica Neue", sans-serif; }
+    #artist   { font-family: "Helvetica Neue", sans-serif; }
+    #album    { font-family: "Roboto", sans-serif; }
 
     /*:::::::                  Previous/current display order and style                  :::::::*/
     #div-current      { order: 0 }  /* 0: Top row    */
@@ -73,6 +81,8 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     /* Set to 'scaleX(-1)' to make the progress bar go from right to left.
        Default is left to right */
     #div-progress { transform: scaleX(1); }
+    /* Set 'opacity' to 0 in order to disable completely the "progress bar" feature */
+    #div-progress { opacity: 1; }
 
     /*:::::::                 Previous song info display order and style                 :::::::*/
     /* Set margin-left to none: Align left | auto: Align right */
@@ -81,7 +91,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
 
     /*:::::::                           Intro/outro animation                            :::::::*/
     /* Pick from: none | fadeIn | slideInUp | slideInDown | slideInRight | slideInLeft */
-    .animateIn { animation: slideInRight 0.5s; }
+    .animateIn  { animation: slideInRight 0.5s; }
 
     /* Pick from: none | fadeOut | slideOutUp | slideOutDown | slideOutRight | slideOutLeft */
     .animateOut { animation: slideOutDown 0.5s; }
@@ -101,16 +111,31 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
 
 ## Customizing the widget from OBS properties
 
+### Import fonts
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+```
+
 ### Default OBS custom css value (leave as is)
 
 ```css
 body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
 ```
 
+### Text fields fonts
+
+```css
+#previous { font-family: "Roboto", sans-serif; } /* Imported font with the @import above */
+#title    { font-family: "Helvetica Neue", sans-serif; }
+#artist   { font-family: "Helvetica Neue", sans-serif; }
+#album    { font-family: "Roboto", sans-serif; }
+```
+
 ### Previous/current display order and style
 
 ```css
-#div-current { order: 0 }       /* 0: Top row */
+#div-current      { order: 0 }  /* 0: Top row */
 #div-previous-row { order: 1; } /* 1: Bottom row */
 ```
 
@@ -126,12 +151,25 @@ Set ```opacity``` to ```0``` in order to disable completely the "previous track"
 #div-cover { order: 0; }  /* 0: Left side | 1: Right side */
 ```
 
-## Song info display order and style
+
+### Progress bar style
 
 ```css
-#div-title { order: 0; }  /* 0: Top row */
-#div-artist { order: 1; } /* 1: Middle row */
-#div-album { order: 2; }  /* 2: Bottom row */
+#div-progress { background-color: #535353; !important }
+#div-bar      { background-color: #b3b3b3; height: 5px; }
+/* Set to 'scaleX(-1)' to make the progress bar go from right to left.
+    Default is left to right */
+#div-progress { transform: scaleX(1); }
+/* Set 'opacity' to 0 in order to disable completely the "progress bar" feature */
+#div-progress { opacity: 1; }
+```
+
+### Song info display order and style
+
+```css
+#div-title  { order: 0; }  /* 0: Top row */
+#div-artist { order: 1; }  /* 1: Middle row */
+#div-album  { order: 2; }  /* 2: Bottom row */
 ```
 
 Set ```margin-left``` to ```none```: Align left | ```auto```: Align right
@@ -152,21 +190,21 @@ Set Shadow that covers the text when it scrolls out
 #div-song { box-shadow: inset -19px 0px 3px -3px #121212, inset 19px 0px 3px -3px #121212; }
 ```
 
-## Previous song info order and style
+### Previous song info order and style
+
+Set margin-left to ```none```: Align left | ```auto```: Align right
 
 ```css
-/*:::::::previous song info order and style:::::::*/
-/* Set margin-left to none: Align left | auto: Align right */
 #div-previous-prefix { margin-left: none; order: 0; } /* 0: Left side */
-#div-previous { order: 1; } /* 1: Right side */
+#div-previous        { order: 1; }                    /* 1: Right side */
 ```
 
-## Intro/outro animation
+### Intro/outro animation
 
 Pick from: ```none``` | ```fadeIn``` | ```slideInUp``` | ```slideInDown``` | ```slideInRight``` | ```slideInLeft```
 
 ```css
-.animateIn { animation: slideInRight 0.5s; }
+.animateIn  { animation: slideInRight 0.5s; }
 ```
 
 Pick from: ```none``` | ```fadeOut``` | ```slideOutUp``` | ```slideOutDown``` | ```slideOutRight``` | ```slideOutLeft```

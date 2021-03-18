@@ -1,6 +1,6 @@
 loadInfoFromServer = true;
 tunaServerAddr = 'http://localhost:1608';
-updateRefreshRate = 100;
+updateRefreshRate = 500;
 
 var filepaths = {};
 filepaths.artist = "./data/np_artist.txt";
@@ -29,6 +29,7 @@ var dataChanged = false;
 var visible = false;
 var shown = false;
 var displayPreviousSongInfo = false;
+var displayProgressBar = false;
 
 
 var maxLength = {};
@@ -108,8 +109,15 @@ function showText() {
 
 function updateProgressBar() {
   var current_progress = current.progress / current.duration * 100;
-  //console.log(current_progress);
   document.getElementById("div-bar").style.width = current_progress + "%";
+}
+
+function showProgressBar() {
+  console.log("showProgressBar");
+  var progress = $("#div-progress");
+  progress.fadeIn(500).promise().done(function () {
+    progress.css("opacity", "1");
+  });
 }
 
 function getAnimationDelay(containerCss, index) {
@@ -201,8 +209,11 @@ function displayData() {
         document.getElementById("cover").src = filepaths.cover + "?t=" + current.title + current.artist;
         $("#cover").fadeIn(300);
       });
+      setTimeout(showProgressBar, 400)
     }
-    setTimeout(updateProgressBar, 100);
+    if (displayProgressBar) {
+      setTimeout(updateProgressBar, 500);
+    }
   }
 
 }
@@ -256,6 +267,7 @@ function checkUpdate() {
 
 function main() {
   displayPreviousSongInfo = getComputedStyle(document.querySelector("#div-previous-row")).opacity != 0 ? true : false;
+  displayProgressBar = getComputedStyle(document.querySelector("#div-progress")).opacity != 0 ? true : false;
   checkUpdate();
 }
 
