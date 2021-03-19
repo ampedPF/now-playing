@@ -8,8 +8,10 @@ filepaths.album = "./data/np_album.txt";
 filepaths.title = "./data/np_title.txt";
 filepaths.cover = "./data/np_cover.png";
 
-var scrollingDelay = 1500;
+// END OF CONFIGURATION BLOCK
 
+
+var scrollingDelay = 1500;
 
 var current = {};
 current.title = "";

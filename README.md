@@ -8,19 +8,23 @@ Its style and animation can be tinkered with right from the browser source prope
 
 ![preview](./preview.png)
 
-## Fetching info from Tuna Webserver
+## Configuration
 
-Starting plugin version 1.5.2, Tuna now can host song information on local webserver with default port ```1608```.
-Just make sure to check the checkbox on the Basics tab of Tuna settings window.
+### Fetching info from Tuna Webserver
 
-Then in ```now-playing.js```, configure as necessary.
+Starting with Tuna plugin version 1.5.2, it now allow hosting song information on local webserver which default port is ```1608```.
+Just make sure to check the checkbox on the Basics tab in Tuna settings window.
+
+Then edit ```now-playing.js```, configure as necessary.
 
 ```js
 loadInfoFromServer = true;
 tunaServerAddr = 'http://localhost:1608';
 ```
 
-## File location
+### File location
+
+Tuna can also store the song information in local files. This projects assumes by default that these are stored at the following filepaths.
 
 | Field  | Path |
 | ------------- | ------------- |
@@ -38,7 +42,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
 3. Set Width to ```1000```
 4. Set Height to ```240``` (or ```200``` if you don't want to show the previous song info located at the bottom by default)
 5. <details>
-    <summary>Copy this to the Custom CSS panel</summary>
+    <summary>Expand this block and copy its content the to the Custom CSS panel</summary>
   
     ```css
     @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
@@ -147,10 +151,10 @@ body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
 The google font is imported font with the ```@import``` above
 ```css
 #previous, #div-previous-prefix {
-        color: #ffffff;
-        font-size: 24px;
-        font-weight: bold;
-        font-family: "Roboto", sans-serif; } 
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif; } 
 
 #title {
     color: #ffffff;
