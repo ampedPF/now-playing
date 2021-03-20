@@ -211,7 +211,7 @@ Set widget background color.
 ```
 
 Set ```opacity``` to ```0``` in order to disable completely the "previous track" feature. </br>
-Default value is 'inherit'.
+Default value is ```inherit```.
 
 ```css
 #div-previous-row {   opacity: 1; }
