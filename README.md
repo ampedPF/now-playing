@@ -2,6 +2,8 @@
 
 This widget displays currently playing song with information fetched by [Tuna](https://obsproject.com/forum/resources/tuna.843/) plugin for OBS 26.0.
 
+Using [Snip](https://github.com/dlrudie/Snip) to fetch and store the song informtation to local files, it should be working with StreamlabsOBS (and any streaming application allowing browser sources).
+
 Its style and animation can be tinkered with right from the browser source properties window in OBS.
 
 ## Preview
@@ -10,30 +12,47 @@ Its style and animation can be tinkered with right from the browser source prope
 
 ## Configuration
 
+Edit ```config.json``` to configure the widget.
+
 ### Fetching info from Tuna Webserver
 
 Starting with Tuna plugin version 1.5.2, it now allow hosting song information on local webserver which default port is ```1608```.
 Just make sure to check the checkbox on the Basics tab in Tuna settings window.
 
-Then edit ```now-playing.js```, configure as necessary.
-
-```js
-loadInfoFromServer = true;
-tunaServerAddr = 'http://localhost:1608';
+```json
+"updateRefreshRate": 500,
+"loadInfoFromServer": true,
+"tunaServerAddr": "http://localhost:1608",
 ```
 
 ### File location
 
-Tuna can also store the song information in local files. This projects assumes by default that these are stored at the following filepaths.
+Tuna, like Snip, can also store the song information in local files. This projects assumes by default that these are stored at the following filepaths.
 
-| Field  | Path |
-| ------------- | ------------- |
-| Title | ```./data/np_title.txt``` |
-| Artist | ```./data/np_artist.txt``` |
-| Album | ```./data/np_album.txt``` |
-| Cover | ```./data/np_cover.png``` |
+```json
+"filepaths": {
+    "artist": "./data/np_artist.txt",
+    "album": "./data/np_album.txt",
+    "title": "./data/np_title.txt",
+    "cover": "./data/np_cover.png"
+},
+```
 
-## Installation
+### Configuring the scrolling behaviour
+
+```json
+"songinfo": {
+    "maxLength": {
+        "artist": 35,
+        "album": 50,
+        "title": 30,
+        "previous": 38
+    },
+    "scrollingDelay": 1500
+},
+```
+
+## Installation steps
 
 After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resources/tuna.843/) or later following the steps described [here](https://obsproject.com/forum/resources/tuna.843/).
 
@@ -78,11 +97,13 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
 
     /*:::::::                  Previous/current display order and style                  :::::::*/
     #div-current      { order: 0; }  /* 0: Top row    */
-    #div-previous-row { order: 1; } /* 1: Bottom row */
-    /* Set widget background color (behind the progress bar) */
+    #div-previous-row { order: 1; }  /* 1: Bottom row */
+    /* Set widget background color */
     #div-current      { background-color: #121212; }
-    /* Set 'opacity' to 0 in order to disable completely the "previous track" feature */
-    #div-previous-row { background-color: #121212; opacity: 1; }
+    #div-previous-row { background-color: #121212; }
+    /* Set 'opacity' to 0 in order to disable completely the "previous track" feature.
+       Default value is 'inherit'. */
+    #div-progress { display: inherit; }
 
     /*:::::::                        Cover/song info display order                       :::::::*/
     #div-cover    { order: 0; }  /* 0: Left side | 1: Right side */
@@ -96,8 +117,9 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     #title, #artist, #album { margin-left: none; }
     /* Set background color */
     #div-song>div { background-color: #121212; }
-    /* Set Shadow that covers the text when it scrolls out */
-    #div-song     { box-shadow: inset -19px 0px 3px -3px #121212, inset 19px 0px 3px -3px #121212; }
+    /* Set Shadow that covers the text when it scrolls in and out */
+    #div-song     { box-shadow: inset -19px 0px 3px -3px #121212,
+                                inset 19px 0px 3px -3px #121212; }
 
     /*:::::::                             Progress bar style                             :::::::*/
     #div-progress { background-color: #535353; !important; }
@@ -105,8 +127,9 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     /* Set to 'scaleX(-1)' to make the progress bar go from right to left.
        Default is left to right */
     #div-progress { transform: scaleX(1); }
-    /* Set 'opacity' to 0 in order to disable completely the "progress bar" feature */
-    #div-progress { opacity: 1; }
+    /* Set 'display' to 'none' in order to disable completely the "progress bar" feature.
+       Default value is 'inherit' */
+    #div-progress { display: inherit; }
 
     /*:::::::                 Previous song info display order and style                 :::::::*/
     /* Set margin-left to none: Align left | auto: Align right */
@@ -115,21 +138,19 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
 
     /*:::::::                           Intro/outro animation                            :::::::*/
     /* Pick from: none | fadeIn | slideInUp | slideInDown | slideInRight | slideInLeft */
-    .animateIn  { animation: slideInRight 0.5s; }
+    .animateIn    { animation: slideInRight 0.5s; }
 
     /* Pick from: none | fadeOut | slideOutUp | slideOutDown | slideOutRight | slideOutLeft */
-    .animateOut { animation: slideOutDown 0.5s; }
+    .animateOut   { animation: slideOutDown 0.5s; }
 
-    /* You can briefly display the widget by queuing 2 of the above animations
-       with "hold [duration] [delay]" in-between */
-    /* Note: Comment the 2 animations above before uncommenting the one below */
-    /* The delay of the hold animation should be the duration of the first one. */
-    /* The delay of the second animation should be the sum of the duration and delay of the hold one. */
+    /* You can briefly display the widget by queuing 2 of the above animations in .animateIn
+       with "hold [duration] [delay]" in-between
+       Note: Comment the 2 animations above before uncommenting the one below.
+       The delay of the hold animation should be the duration of the first one.
+       The delay of the second animation should be the sum of the duration and delay of the hold one. */
     /* .animateIn { animation: slideInRight 0.5s, hold 4.5s 0.5s, slideOutDown 0.5s 5s; } */
     ```
-</details>
-
-
+    </details>
 6. Check the "Refresh browser when scene becomes active" checkbox
 7. Click OK
 
@@ -182,10 +203,17 @@ The google font is imported font with the ```@import``` above
 #div-previous-row { order: 1; } /* 1: Bottom row */
 ```
 
+Set widget background color.
+
+```css
+#div-current      { background-color: #121212; }
+#div-previous-row { background-color: #121212; }
+```
+
 Set ```opacity``` to ```0``` in order to disable completely the "previous track" feature
 
 ```css
-#div-previous-row {  background-color: #121212dd; opacity: 1; }
+#div-previous-row {   opacity: 1; }
 ```
 
 ### Cover/song display order
@@ -200,11 +228,18 @@ Set ```opacity``` to ```0``` in order to disable completely the "previous track"
 ```css
 #div-progress { background-color: #535353; !important; }
 #div-bar      { background-color: #b3b3b3; height: 5px; }
-/* Set to 'scaleX(-1)' to make the progress bar go from right to left.
-    Default is left to right */
+```
+
+Set to 'scaleX(-1)' to make the progress bar go from right to left. Default is left to right.
+
+```css
 #div-progress { transform: scaleX(1); }
-/* Set 'opacity' to 0 in order to disable completely the "progress bar" feature */
-#div-progress { opacity: 1; }
+```
+
+Set 'display' to 'none' in order to disable completely the "progress bar" feature.
+
+```css
+#div-progress { display: inherit; }
 ```
 
 ### Song info display order and style
@@ -230,7 +265,8 @@ Set background color
 Set Shadow that covers the text when it scrolls out
 
 ```css
-#div-song { box-shadow: inset -19px 0px 3px -3px #121212, inset 19px 0px 3px -3px #121212; }
+#div-song { box-shadow: inset -19px 0px 3px -3px #121212,
+                        inset 19px 0px 3px -3px #121212; }
 ```
 
 ### Previous song info order and style
@@ -256,7 +292,7 @@ Pick from: ```none``` | ```fadeOut``` | ```slideOutUp``` | ```slideOutDown``` | 
 .animateOut { animation: slideOutDown 0.5s; }
 ```
 
-You can briefly display the widget by queuing 2 of the above animations with "```hold [duration] [delay]```" in-between.
+You can briefly display the widget by queuing 2 of the above animations in ```.animateIn``` with "```hold [duration] [delay]```" in-between.
 
 Note:
 
@@ -267,43 +303,3 @@ Note:
 ```css
 .animateIn { animation: slideInRight 0.5s, hold 4.5s 0.5s, slideOutDown 0.5s 5s; }
 ```
-
-<details>
-
-<summary>Dev</summary>
-
-    ## Dev Only: Make Usage
-
-    Make sure you have [nodejs](https://nodejs.org/en/download/) v12.14.1 or up
-
-    Then install http-server globally with
-
-    ```console
-    npm install -g http-server
-    ```
-
-    Finally start the server and load the project with
-
-    ```console
-    make run
-    ```
-
-    Tuna format for json output
-    ```json
-    {
-        "artist": "%m",
-        "album": "%a",
-        "disc_number": "%d",
-        "full_release_date": "%r",
-        "release_year": "%y",
-        "song_label": "%b",
-        "song_progress": "%p",
-        "song_length": "%l",
-        "time_left": "%o",
-        "title": "%t",
-        "track_number": "%n",
-    }
-    ```
-
-    uncomment the custom.css line in now-playing.html to test before pasting in obs
-</details>

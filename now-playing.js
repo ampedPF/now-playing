@@ -1,17 +1,4 @@
-loadInfoFromServer = true;
-tunaServerAddr = 'http://localhost:1608';
-updateRefreshRate = 500;
-
-var filepaths = {};
-filepaths.artist = "./data/np_artist.txt";
-filepaths.album = "./data/np_album.txt";
-filepaths.title = "./data/np_title.txt";
-filepaths.cover = "./data/np_cover.png";
-
-// END OF CONFIGURATION BLOCK
-
-
-var scrollingDelay = 1500;
+var conf = {};
 
 var current = {};
 current.title = "";
@@ -32,13 +19,6 @@ var visible = false;
 var shown = false;
 var displayPreviousSongInfo = false;
 var displayProgressBar = false;
-
-
-var maxLength = {};
-maxLength.title = 30;
-maxLength.artist = 35;
-maxLength.album = 50;
-maxLength.previous = 38;
 
 var first_previous = true;
 
@@ -65,13 +45,13 @@ function previousSongInfoValidated() {
 }
 
 function updateText() {
-  document.getElementById("title").innerHTML = current.title;
-  document.getElementById("artist").innerHTML = current.artist;
+  // document.getElementById("title").innerHTML = current.title;
+  // document.getElementById("artist").innerHTML = current.artist;
   $("#title").text(current.title);
   $("#artist").text(current.artist);
   $("#album").text(current.album);
   if (previousSongInfoValidated()) {
-    $("#previous").text(getInlineSongInfo(truncate(previous.artist, maxLength.previous), truncate(previous.title, maxLength.previous)));
+    $("#previous").text(getInlineSongInfo(truncate(previous.artist, conf.songinfo.maxLength.previous), truncate(previous.title, conf.songinfo.maxLength.previous)));
   }
 }
 
@@ -94,7 +74,7 @@ function animateText(elem, text, maxLength) {
     if (text.length > maxLength) {
       setTimeout(() => {
         elem.addClass("scrolling");
-      }, scrollingDelay);
+      }, conf.songinfo.scrollingDelay);
     }
     elem.fadeIn(500).promise().done(function () {
       elem.css("opacity", "1");
@@ -103,10 +83,10 @@ function animateText(elem, text, maxLength) {
 }
 
 function showText() {
-  animateText($("#title"), current.title, maxLength.title);
-  animateText($("#artist"), current.artist, maxLength.artist);
-  animateText($("#album"), current.album, maxLength.album);
-  animateText($("#previous"), getInlineSongInfo(previous.artist, previous.title, previous.album), maxLength.previous);
+  animateText($("#title"), current.title, conf.songinfo.maxLength.title);
+  animateText($("#artist"), current.artist, conf.songinfo.maxLength.artist);
+  animateText($("#album"), current.album, conf.songinfo.maxLength.album);
+  animateText($("#previous"), getInlineSongInfo(previous.artist, previous.title, previous.album), conf.songinfo.maxLength.previous);
 }
 
 function updateProgressBar() {
@@ -115,9 +95,8 @@ function updateProgressBar() {
 }
 
 function showProgressBar() {
-  console.log("showProgressBar");
   var progress = $("#div-progress");
-  progress.fadeIn(500).promise().done(function () {
+  progress.fadeIn(1000).promise().done(function () {
     progress.css("opacity", "1");
   });
 }
@@ -208,13 +187,15 @@ function displayData() {
       setTimeout(updateText, 300);
       setTimeout(showText, 400);
       $("#cover").fadeOut(300, function () {
-        document.getElementById("cover").src = filepaths.cover + "?t=" + current.title + current.artist;
+        document.getElementById("cover").src = conf.filepaths.cover + "?t=" + current.title + current.artist;
         $("#cover").fadeIn(300);
       });
-      setTimeout(showProgressBar, 400)
+      if (displayProgressBar) {
+        setTimeout(showProgressBar, 400);
+      }
     }
     if (displayProgressBar) {
-      setTimeout(updateProgressBar, 500);
+      updateProgressBar();
     }
   }
 
@@ -225,8 +206,8 @@ function cleanString(str) {
 }
 
 function checkUpdate() {
-  if (loadInfoFromServer) {
-    fetch(tunaServerAddr)
+  if (conf.loadInfoFromServer) {
+    fetch(conf.tunaServerAddr)
       .then(response => response.json())
       .then(data => {
         current.artist = '';
@@ -236,7 +217,6 @@ function checkUpdate() {
         current.progress = 0;
         //current.time_left = 0;
         if (data['status'] == 'playing') {
-          //var array = data['artists'];
           for (var i = 0; i < data['artists'].length; i++) {
             current.artist += data['artists'][i];
             if (i < data['artists'].length - 1)
@@ -254,23 +234,29 @@ function checkUpdate() {
       })
       .then(displayData)
       .catch(function () {
-        console.log(`An error has occurred. Check if Tuna is running and serving json on ${tunaServerAddr}`);
+        console.log(`An error has occurred. Check if Tuna is running and serving json on ${conf.tunaServerAddr}`);
       })
   } else {
     $.when(
-        $.get(filepaths.title, res => current.title = cleanString(res)),
-        $.get(filepaths.artist, res => current.artist = cleanString(res)),
-        $.get(filepaths.album, res => current.album = cleanString(res)))
+        $.get(conf.filepaths.title, res => current.title = cleanString(res)),
+        $.get(conf.filepaths.artist, res => current.artist = cleanString(res)),
+        $.get(conf.filepaths.album, res => current.album = cleanString(res)))
       .done(displayData);
   }
 
-  setTimeout(checkUpdate, updateRefreshRate);
+  setTimeout(checkUpdate, conf.updateRefreshRate);
 }
 
 function main() {
-  displayPreviousSongInfo = getComputedStyle(document.querySelector("#div-previous-row")).opacity != 0 ? true : false;
-  displayProgressBar = getComputedStyle(document.querySelector("#div-progress")).opacity != 0 ? true : false;
-  checkUpdate();
+  $.getJSON('./config.json', function (response) {
+    conf = response;
+  }).fail(function () {
+    console.log("An error has occurred while loading config.json file.");
+  }).then(function () {
+    displayPreviousSongInfo = getComputedStyle(document.querySelector("#div-previous-row")).display == 'none' ? false : true;
+    displayProgressBar = getComputedStyle(document.querySelector("#div-progress")).display == 'none' ? false : true;
+    checkUpdate();
+  });
 }
 
 $(document).ready(main);

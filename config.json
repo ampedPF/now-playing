@@ -1,0 +1,22 @@
+{
+    "updateRefreshRate": 500,
+    "loadInfoFromServer": true,
+    "tunaServerAddr": "http://localhost:1608",
+
+    "filepaths": {
+        "artist": "./data/np_artist.txt",
+        "album": "./data/np_album.txt",
+        "title": "./data/np_title.txt",
+        "cover": "./data/np_cover.png"
+    },
+
+    "songinfo": {
+        "maxLength": {
+            "artist": 35,
+            "album": 50,
+            "title": 30,
+            "previous": 38
+        },
+        "scrollingDelay": 1500
+    }
+}
