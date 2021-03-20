@@ -101,7 +101,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     /* Set widget background color */
     #div-current      { background-color: #121212; }
     #div-previous-row { background-color: #121212; }
-    /* Set 'opacity' to 0 in order to disable completely the "previous track" feature.
+    /* Set 'display' to 0 in order to disable completely the "previous track" feature.
        Default value is 'inherit'. */
     #div-progress { display: inherit; }
 
@@ -210,11 +210,11 @@ Set widget background color.
 #div-previous-row { background-color: #121212; }
 ```
 
-Set ```opacity``` to ```0``` in order to disable completely the "previous track" feature. </br>
+Set ```display``` to ```0``` in order to disable completely the "previous track" feature. </br>
 Default value is ```inherit```.
 
 ```css
-#div-previous-row {   opacity: 1; }
+#div-previous-row { display: 1; }
 ```
 
 ### Cover/song display order
