@@ -128,7 +128,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
        Default is left to right */
     #div-progress { transform: scaleX(1); }
     /* Set 'display' to 'none' in order to disable completely the "progress bar" feature.
-       Default value is 'inherit' */
+       Default value is 'inherit'. */
     #div-progress { display: inherit; }
 
     /*:::::::                 Previous song info display order and style                 :::::::*/
@@ -210,7 +210,8 @@ Set widget background color.
 #div-previous-row { background-color: #121212; }
 ```
 
-Set ```opacity``` to ```0``` in order to disable completely the "previous track" feature
+Set ```opacity``` to ```0``` in order to disable completely the "previous track" feature. </br>
+Default value is 'inherit'.
 
 ```css
 #div-previous-row {   opacity: 1; }
@@ -230,13 +231,15 @@ Set ```opacity``` to ```0``` in order to disable completely the "previous track"
 #div-bar      { background-color: #b3b3b3; height: 5px; }
 ```
 
-Set to 'scaleX(-1)' to make the progress bar go from right to left. Default is left to right.
+Set to 'scaleX(-1)' to make the progress bar go from right to left. </br>
+Default is left to right.
 
 ```css
 #div-progress { transform: scaleX(1); }
 ```
 
-Set 'display' to 'none' in order to disable completely the "progress bar" feature.
+Set 'display' to 'none' in order to disable completely the "progress bar" feature. </br>
+Default value is ```inherit```.
 
 ```css
 #div-progress { display: inherit; }
