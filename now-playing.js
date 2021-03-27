@@ -187,7 +187,7 @@ function displayData() {
       setTimeout(updateText, 300);
       setTimeout(showText, 400);
       $("#cover").fadeOut(300, function () {
-        document.getElementById("cover").src = conf.filepaths.cover + "?t=" + current.title + current.artist;
+        document.getElementById("cover").src = current.cover + "?t=" + current.title + current.artist;
         $("#cover").fadeIn(300);
       });
       if (displayProgressBar) {
@@ -216,6 +216,7 @@ function checkUpdate() {
         current.duration = 0;
         current.progress = 0;
         //current.time_left = 0;
+        current.cover = '';
         if (data['status'] == 'playing') {
           for (var i = 0; i < data['artists'].length; i++) {
             current.artist += data['artists'][i];
@@ -230,6 +231,7 @@ function checkUpdate() {
           current.duration = data['duration'];
           current.progress = data['progress'];
           //current.time_left = data['time_left'];
+          current.cover = data['cover_url'];
         }
       })
       .then(displayData)
@@ -240,7 +242,8 @@ function checkUpdate() {
     $.when(
         $.get(conf.filepaths.title, res => current.title = cleanString(res)),
         $.get(conf.filepaths.artist, res => current.artist = cleanString(res)),
-        $.get(conf.filepaths.album, res => current.album = cleanString(res)))
+        $.get(conf.filepaths.album, res => current.album = cleanString(res)),
+        $.get(conf.filepaths.cover, res => current.cover = cleanString(res)))
       .done(displayData);
   }
 
