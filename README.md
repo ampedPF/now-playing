@@ -122,7 +122,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
                                 inset 19px 0px 3px -3px #121212; }
 
     /*:::::::                             Progress bar style                             :::::::*/
-    #div-progress { background-color: #535353; !important; }
+    #div-progress { background-color: #535353 !important; }
     #div-bar      { background-color: #b3b3b3; height: 5px; }
     /* Set to 'scaleX(-1)' to make the progress bar go from right to left.
        Default is left to right */
@@ -227,7 +227,7 @@ Default value is ```inherit```.
 ### Progress bar style
 
 ```css
-#div-progress { background-color: #535353; !important; }
+#div-progress { background-color: #535353 !important; }
 #div-bar      { background-color: #b3b3b3; height: 5px; }
 ```
 
