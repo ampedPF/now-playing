@@ -89,11 +89,20 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
         font-size: 36px;
         font-weight: bold;
         font-family: "Helvetica Neue", sans-serif; }
+    
     #album    {
         color: #7b7ba7;
         font-size: 32px;
         font-weight: bold;
         font-family: "Roboto", sans-serif; }
+
+    #duration-current,
+    #duration-total {
+        color: #707070;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: "Roboto", sans-serif;
+    }
 
     /*:::::::                  Previous/current display order and style                  :::::::*/
     #div-current      { order: 0; }  /* 0: Top row    */
@@ -101,18 +110,20 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     /* Set widget background color */
     #div-current      { background-color: #121212; }
     #div-previous-row { background-color: #121212; }
-    /* Set 'display' to 0 in order to disable completely the "previous track" feature.
+    /* Set 'display' to none in order to disable completely the "previous track" feature.
        Default value is 'inherit'. */
     #div-progress { display: inherit; }
 
     /*:::::::                        Cover/song info display order                       :::::::*/
     #div-cover    { order: 0; }  /* 0: Left side | 1: Right side */
+    #div-cover    { background-color: #1CB050; }
+    
 
     /*:::::::                      Song info display order and style                     :::::::*/
     #div-title    { order: 0; }  /* 0: Top row           */
     #div-artist   { order: 1; }  /* 1: First middle row  */
-    #div-progress { order: 2; }  /* 2: Second middle row */
-    #div-album    { order: 3; }  /* 3: Bottom row        */
+    #div-album    { order: 2; }  /* 2: Second middle row */
+    #div-duration { order: 3; }  /* 3: Bottom row        */
     /* Set margin-left to none: Align left | auto: Align right */
     #title, #artist, #album { margin-left: none; }
     /* Set background color */
@@ -120,6 +131,15 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     /* Set Shadow that covers the text when it scrolls in and out */
     #div-song     { box-shadow: inset -19px 0px 3px -3px #121212,
                                 inset 19px 0px 3px -3px #121212; }
+
+    /*:::::::                                 Widget style                                :::::::*/
+    /* Set up the widget's rounded border. e.g. 25px */
+    /* It'll automatically apply to the previous row */
+    #div-current { border-radius: 0px; } 
+    /*:::::::                                 Cover style                                :::::::*/
+    /* Set up the cover's size; e.g height: 80%;
+       and rounded border.      e.g border-radius: 25px; */
+    #cover { height: 80%; border-radius: 25px; } 
 
     /*:::::::                             Progress bar style                             :::::::*/
     #div-progress { background-color: #535353 !important; }
@@ -130,6 +150,12 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     /* Set 'display' to 'none' in order to disable completely the "progress bar" feature.
        Default value is 'inherit'. */
     #div-progress { display: inherit; }
+
+    /*:::::::                             Duration style                             :::::::*/
+    /* Set to row-reverse do display total duration on the left side and current duration
+    on the right side.
+    Default value is : 'row'. */
+    #div-duration-row { flex-direction: row; }
 
     /*:::::::                 Previous song info display order and style                 :::::::*/
     /* Set margin-left to none: Align left | auto: Align right */
@@ -150,6 +176,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
        The delay of the second animation should be the sum of the duration and delay of the hold one. */
     /* .animateIn { animation: slideInRight 0.5s, hold 4.5s 0.5s, slideOutDown 0.5s 5s; } */
     ```
+
     </details>
 6. Check the "Refresh browser when scene becomes active" checkbox
 7. Click OK
@@ -169,7 +196,9 @@ body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
 ```
 
 ### Text fields fonts
+
 The google font is imported font with the ```@import``` above
+
 ```css
 #previous, #div-previous-prefix {
     color: #ffffff;
@@ -189,11 +218,20 @@ The google font is imported font with the ```@import``` above
     font-size: 36px;
     font-weight: bold;
     font-family: "Helvetica Neue", sans-serif; }
+
 #album {
     color: #7b7ba7;
     font-size: 32px;
     font-weight: bold;
     font-family: "Roboto", sans-serif; }
+
+#duration-current,
+#duration-total {
+    color: #707070;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif;
+}
 ```
 
 ### Previous/current display order and style
@@ -210,7 +248,7 @@ Set widget background color.
 #div-previous-row { background-color: #121212; }
 ```
 
-Set ```display``` to ```0``` in order to disable completely the "previous track" feature. </br>
+Set ```display``` to ```none``` in order to disable completely the "previous track" feature. </br>
 Default value is ```inherit```.
 
 ```css
@@ -220,37 +258,21 @@ Default value is ```inherit```.
 ### Cover/song display order
 
 ```css
-#div-cover { order: 0; }  /* 0: Left side | 1: Right side */
+#div-cover    { order: 0; }  /* 0: Left side | 1: Right side */
+#div-cover    { background-color: #1CB050; }
 ```
 
-
-### Progress bar style
-
 ```css
-#div-progress { background-color: #535353 !important; }
-#div-bar      { background-color: #b3b3b3; height: 5px; }
-```
-
-Set to 'scaleX(-1)' to make the progress bar go from right to left. </br>
-Default is left to right.
-
-```css
-#div-progress { transform: scaleX(1); }
-```
-
-Set 'display' to 'none' in order to disable completely the "progress bar" feature. </br>
-Default value is ```inherit```.
-
-```css
-#div-progress { display: inherit; }
+#cover { height: 80%; border-radius: 0px; }
 ```
 
 ### Song info display order and style
 
 ```css
-#div-title  { order: 0; }  /* 0: Top row */
-#div-artist { order: 1; }  /* 1: Middle row */
-#div-album  { order: 2; }  /* 2: Bottom row */
+#div-title    { order: 0; }  /* 0: Top row           */
+#div-artist   { order: 1; }  /* 1: Middle row        */
+#div-album    { order: 2; }  /* 2: Second middle row */
+#div-progress { order: 3; }  /* 3: Bottom row        */
 ```
 
 Set ```margin-left``` to ```none```: Align left | ```auto```: Align right
@@ -270,6 +292,55 @@ Set Shadow that covers the text when it scrolls out
 ```css
 #div-song { box-shadow: inset -19px 0px 3px -3px #121212,
                         inset 19px 0px 3px -3px #121212; }
+```
+
+### Widget style
+
+Set up the widget's rounded border. e.g. 25px
+It'll automatically apply to the previous row
+
+```css
+#div-current { border-radius: 0px; }
+```
+
+### Cover style
+
+Set up the cover's size; e.g `height: 80%;`
+and rounded border.      e.g `border-radius: 25px;`
+
+```css
+#cover { height: 80%; border-radius: 25px; }
+```
+
+### Progress bar style
+
+```css
+#div-progress { background-color: #535353 !important; }
+#div-bar      { background-color: #b3b3b3; height: 5px; }
+```
+
+Set to 'scaleX(-1)' to make the progress bar go from right to left.
+Default is `scaleX(1)` for left to right
+
+```css
+#div-progress { transform: scaleX(1); }
+```
+
+Set 'display' to 'none' in order to disable completely the "progress bar" feature.
+Default value is `inherit`.
+
+```css
+#div-progress { display: inherit; }
+```
+
+### Duration style
+
+Set to `row-reverse` do display total duration on the left side and current duration
+on the right side.
+Default value is : `row`.
+
+```css
+#div-duration-row { flex-direction: row; }
 ```
 
 ### Previous song info order and style

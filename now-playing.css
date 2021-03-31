@@ -28,13 +28,16 @@ body {
     display: flex;
     align-items: center;
     order: 1;
+    overflow: hidden;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
-#div-previous-row>div {
+/* #div-previous-row>div {
     overflow: hidden;
     padding-left: 1%;
     padding-right: 1%;
-}
+} */
 
 #div-previous {
     overflow: hidden;
@@ -63,25 +66,30 @@ body {
     display: flex;
     z-index: -2;
     order: 0;
+    overflow: hidden;
+    border-radius: 0px;
 }
 
 #div-cover {
     width: 20%;
     z-index: 100;
     background-color: #121212;
-
     order: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #cover {
     height: 100%;
+    border-radius: 0px;
 }
 
 #div-song {
     width: 80%;
     display: flex;
     flex-direction: column;
-    /*box-shadow: inset -19px 0px 3px -3px #121212, inset 19px 0px 3px -3px #121212;*/
+    box-shadow: inset -19px 0px 3px -3px #121212, inset 19px 0px 3px -3px #121212;
 }
 
 #div-song>div {
@@ -93,7 +101,7 @@ body {
 }
 
 #div-title {
-    height: 45%;
+    height: 36%;
     display: flex;
     align-items: center;
 
@@ -101,33 +109,57 @@ body {
 }
 
 #div-artist {
-    height: 30%;
+    height: 26%;
     display: flex;
     align-items: center;
 
     order: 1;
 }
 
-#div-progress {
-    display: inherit;
+#div-duration {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin-left: 2%;
     margin-right: 2%;
     padding-left: 0% !important;
     padding-right: 0% !important;
+    height: 18%;
     width: 96%;
+    order: 3;
+}
+
+#div-duration-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    order: 2;
+}
+
+#div-duration-current {
+    align-self: start;
+}
+
+#div-duration-total {
+    align-self: end;
+}
+
+#div-progress {
+    height: 16%;
+    width: 100%;
     background-color: #535353 !important;
-    order: 1;
     opacity: 0;
+    order: 1;
 }
 
 #div-bar {
-    height: 5px;
+    height: 100%;
     background-color: #b3b3b3;
-    /*#1db954*/
 }
 
 #div-album {
-    height: 25%;
+    height: 20%;
     display: flex;
     align-items: center;
 
@@ -138,7 +170,8 @@ span {
     white-space: nowrap;
 }
 
-#title {
+#title,
+#title-prefix {
     color: #ffffff;
     font-size: 48px;
     font-weight: bold;
@@ -146,7 +179,8 @@ span {
     text-align: right;
 }
 
-#artist {
+#artist,
+#artist-prefix {
     color: #707070;
     text-transform: uppercase;
     font-size: 36px;
@@ -154,9 +188,18 @@ span {
     font-family: "Helvetica Neue", sans-serif;
 }
 
-#album {
+#album,
+#album-prefix {
     color: #7b7ba7;
     font-size: 32px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif;
+}
+
+#duration-current,
+#duration-total {
+    color: #707070;
+    font-size: 18px;
     font-weight: bold;
     font-family: "Roboto", sans-serif;
 }

@@ -18,5 +18,10 @@
             "previous": 38
         },
         "scrollingDelay": 1500
+    },
+    "prefixes": {
+        "title": "",
+        "artist": "",
+        "album": ""
     }
 }

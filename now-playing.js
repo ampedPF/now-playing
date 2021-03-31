@@ -18,7 +18,10 @@ var dataChanged = false;
 var visible = false;
 var shown = false;
 var displayPreviousSongInfo = false;
-var displayProgressBar = false;
+var displayProgress = false;
+var displayDuration = false;
+var round_borders = false;
+var border_radius = "0px";
 
 var first_previous = true;
 
@@ -44,12 +47,14 @@ function previousSongInfoValidated() {
   return !(previous.artist.length == 0 || previous.title.length == 0 || previous.album.length == 0);
 }
 
-function updateText() {
-  // document.getElementById("title").innerHTML = current.title;
-  // document.getElementById("artist").innerHTML = current.artist;
+function updateInfo() {
+  document.getElementById("cover").src = current.cover + "?t=" + current.title + current.artist;
   $("#title").text(current.title);
   $("#artist").text(current.artist);
   $("#album").text(current.album);
+  if (displayDuration) {
+    $("#duration-total").text(millisToMinutesAndSeconds(current.duration));
+  }
   if (previousSongInfoValidated()) {
     $("#previous").text(getInlineSongInfo(truncate(previous.artist, conf.songinfo.maxLength.previous), truncate(previous.title, conf.songinfo.maxLength.previous)));
   }
@@ -75,11 +80,13 @@ function animateText(elem, text, maxLength) {
       setTimeout(() => {
         elem.addClass("scrolling");
       }, conf.songinfo.scrollingDelay);
+    } else {
+      elem.removeClass("scrolling");
     }
-    elem.fadeIn(500).promise().done(function () {
-      elem.css("opacity", "1");
-    });
-  })
+    // elem.fadeIn(500).promise().done(function () {
+    //   elem.css("opacity", "1");
+    // });
+  });
 }
 
 function showText() {
@@ -89,9 +96,12 @@ function showText() {
   animateText($("#previous"), getInlineSongInfo(previous.artist, previous.title, previous.album), conf.songinfo.maxLength.previous);
 }
 
-function updateProgressBar() {
+function updateProgress() {
   var current_progress = current.progress / current.duration * 100;
   document.getElementById("div-bar").style.width = current_progress + "%";
+  if (displayDuration) {
+    $("#duration-current").text(millisToMinutesAndSeconds(current.progress));
+  }
 }
 
 function showProgressBar() {
@@ -99,6 +109,35 @@ function showProgressBar() {
   progress.fadeIn(1000).promise().done(function () {
     progress.css("opacity", "1");
   });
+}
+
+function fadeOutInElems() {
+  $("#div-cover")
+    .add($("#div-title"))
+    .add($("#div-artist"))
+    .add($("#div-album"))
+    .add($("#div-duration"))
+    // .add($("#div-previous-row"))
+    .fadeOut(300, updateInfo)
+    .fadeIn(300);
+}
+
+function fadeInElems() {
+  $("#div-cover")
+    .add($("#div-title"))
+    .add($("#div-artist"))
+    .add($("#div-album"))
+    .add($("#div-duration"))
+    // .add($("#div-previous-row"))
+    .fadeOut(300, updateInfo)
+    .fadeIn(300);
+}
+
+// https://stackoverflow.com/questions/21294302/converting-milliseconds-to-minutes-and-seconds-with-javascript
+function millisToMinutesAndSeconds(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return (seconds == 60 ? (minutes + 1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
 }
 
 function getAnimationDelay(containerCss, index) {
@@ -169,33 +208,41 @@ function displayData() {
     if (dataChanged) {
       if (displayPreviousSongInfo && previousSongInfoValidated()) {
         if (first_previous) {
-          setTimeout(function () {
-            $("#div-previous-row").fadeIn(300);
-          }, 300);
+          if (round_borders) {
+            var top = border_radius + " " + border_radius + " 0px 0px";
+            var bot = "0px 0px " + " " + border_radius + " " + border_radius;
+            if ($("#div-previous-row").css("order") == 1) {
+              $("#div-current").css("border-radius", top);
+              $("#div-previous-row").css("border-radius", bot);
+            } else {
+              $("#div-current").css("border-radius", bot);
+              $("#div-previous-row").css("border-radius", top);
+            }
+          }
+          $("#div-previous-row").fadeIn(300);
           first_previous = false;
-        } else {
-          $("#div-previous-prefix").fadeOut(300, function () {
-            $("#div-previous-prefix").fadeIn(300);
-          });
         }
         $("#div-previous-row").css("opacity", "1");
       } else {
         $("#div-previous-row").css("opacity", "0");
       }
-
-      hideText();
-      setTimeout(updateText, 300);
-      setTimeout(showText, 400);
-      $("#cover").fadeOut(300, function () {
-        document.getElementById("cover").src = current.cover + "?t=" + current.title + current.artist;
-        $("#cover").fadeIn(300);
-      });
-      if (displayProgressBar) {
+      updateInfo();
+      showText();
+      // fadeInElems();
+      // hideText();
+      // setTimeout(updateText, 300);
+      // setTimeout(showText, 400);
+      // $("#cover")
+      //   .fadeOut(300, function () {
+      //     document.getElementById("cover").src = current.cover + "?t=" + current.title + current.artist;
+      //   })
+      //   .fadeIn(300);
+      if (displayProgress) {
         setTimeout(showProgressBar, 400);
       }
     }
-    if (displayProgressBar) {
-      updateProgressBar();
+    if (displayProgress) {
+      updateProgress();
     }
   }
 
@@ -257,7 +304,14 @@ function main() {
     console.log("An error has occurred while loading config.json file.");
   }).then(function () {
     displayPreviousSongInfo = getComputedStyle(document.querySelector("#div-previous-row")).display == 'none' ? false : true;
-    displayProgressBar = getComputedStyle(document.querySelector("#div-progress")).display == 'none' ? false : true;
+    displayProgress = getComputedStyle(document.querySelector("#div-progress")).display == 'none' ? false : true;
+    displayDuration = getComputedStyle(document.querySelector("#div-duration-row")).display == 'none' ? false : true;
+    round_borders = getComputedStyle(document.querySelector("#div-current")).borderRadius == '0px' ? false : true;
+    if (round_borders) {
+      border_radius = getComputedStyle(document.querySelector("#div-current")).borderRadius;
+      console.log("border_radius", border_radius)
+    }
+
     checkUpdate();
   });
 }
