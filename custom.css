@@ -86,10 +86,13 @@ body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
 #div-progress { display: inherit; }
 
 /*:::::::                             Duration style                             :::::::*/
-/* Set to row-reverse do display total duration on the left side and current duration
+/* Set to 'row-reverse' do display total duration on the left side and current duration
 on the right side.
 Default value is : 'row'. */
 #div-duration-row { flex-direction: row; }
+/* Set to 'none' in order to disable completely the "progress bar" feature.
+   Default value is 'flex'. */
+#div-duration-row { display: flex; }
 
 /*:::::::                 Previous song info display order and style                 :::::::*/
 /* Set margin-left to none: Align left | auto: Align right */

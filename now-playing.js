@@ -206,25 +206,27 @@ function displayData() {
       }
     }
     if (dataChanged) {
-      if (displayPreviousSongInfo && previousSongInfoValidated()) {
-        if (first_previous) {
-          if (round_borders) {
-            var top = border_radius + " " + border_radius + " 0px 0px";
-            var bot = "0px 0px " + " " + border_radius + " " + border_radius;
-            if ($("#div-previous-row").css("order") == 1) {
-              $("#div-current").css("border-radius", top);
-              $("#div-previous-row").css("border-radius", bot);
-            } else {
-              $("#div-current").css("border-radius", bot);
-              $("#div-previous-row").css("border-radius", top);
+      if ($("#div-previous-row").length) {
+        if (displayPreviousSongInfo && previousSongInfoValidated()) {
+          if (first_previous) {
+            if (round_borders) {
+              var top = border_radius + " " + border_radius + " 0px 0px";
+              var bot = "0px 0px " + " " + border_radius + " " + border_radius;
+              if ($("#div-previous-row").css("order") == 1) {
+                $("#div-current").css("border-radius", top);
+                $("#div-previous-row").css("border-radius", bot);
+              } else {
+                $("#div-current").css("border-radius", bot);
+                $("#div-previous-row").css("border-radius", top);
+              }
             }
+            $("#div-previous-row").fadeIn(300);
+            first_previous = false;
+            $("#div-previous-row").css("opacity", "1");
           }
-          $("#div-previous-row").fadeIn(300);
-          first_previous = false;
+        } else {
+          $("#div-previous-row").css("opacity", "0");
         }
-        $("#div-previous-row").css("opacity", "1");
-      } else {
-        $("#div-previous-row").css("opacity", "0");
       }
       updateInfo();
       showText();

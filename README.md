@@ -156,6 +156,9 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     on the right side.
     Default value is : 'row'. */
     #div-duration-row { flex-direction: row; }
+    /* Set to 'none' in order to disable completely the "duration row" feature.
+       Default value is 'flex'. */
+    #div-duration-row { display: flex; }
 
     /*:::::::                 Previous song info display order and style                 :::::::*/
     /* Set margin-left to none: Align left | auto: Align right */
@@ -326,7 +329,7 @@ Default is `scaleX(1)` for left to right
 #div-progress { transform: scaleX(1); }
 ```
 
-Set 'display' to 'none' in order to disable completely the "progress bar" feature.
+Set to  `none` in order to disable completely the "progress bar" feature.
 Default value is `inherit`.
 
 ```css
@@ -341,6 +344,13 @@ Default value is : `row`.
 
 ```css
 #div-duration-row { flex-direction: row; }
+```
+
+Set to `none` in order to disable completely the "duration row" feature.
+Default value is `flex`.
+
+```css
+#div-duration-row { display: flex; }
 ```
 
 ### Previous song info order and style
