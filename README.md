@@ -116,7 +116,7 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
 
     /*:::::::                        Cover/song info display order                       :::::::*/
     #div-cover    { order: 0; }  /* 0: Left side | 1: Right side */
-    #div-cover    { background-color: #1CB050; }
+    #div-cover    { background-color: #121212; }
     
 
     /*:::::::                      Song info display order and style                     :::::::*/
@@ -139,11 +139,11 @@ After installing the OBS plugin [Tuna v1.5.1](https://obsproject.com/forum/resou
     /*:::::::                                 Cover style                                :::::::*/
     /* Set up the cover's size; e.g height: 80%;
        and rounded border.      e.g border-radius: 25px; */
-    #cover { height: 80%; border-radius: 25px; } 
+    #cover { height: 100%; width: 100%; border-radius: 0px; } 
 
     /*:::::::                             Progress bar style                             :::::::*/
     #div-progress { background-color: #535353 !important; }
-    #div-bar      { background-color: #b3b3b3; height: 5px; }
+    #div-bar      { background-color: #b3b3b3; }
     /* Set to 'scaleX(-1)' to make the progress bar go from right to left.
        Default is left to right */
     #div-progress { transform: scaleX(1); }
@@ -259,11 +259,11 @@ Default value is ```inherit```.
 
 ```css
 #div-cover    { order: 0; }  /* 0: Left side | 1: Right side */
-#div-cover    { background-color: #1CB050; }
+#div-cover    { background-color: #121212; }
 ```
 
 ```css
-#cover { height: 80%; border-radius: 0px; }
+#cover { height: 100%; width: 100%; border-radius: 0px; }
 ```
 
 ### Song info display order and style
@@ -309,14 +309,14 @@ Set up the cover's size; e.g `height: 80%;`
 and rounded border.      e.g `border-radius: 25px;`
 
 ```css
-#cover { height: 80%; border-radius: 25px; }
+#cover { height: 100%; width: 100%; border-radius: 0px; }
 ```
 
 ### Progress bar style
 
 ```css
 #div-progress { background-color: #535353 !important; }
-#div-bar      { background-color: #b3b3b3; height: 5px; }
+#div-bar      { background-color: #b3b3b3; }
 ```
 
 Set to 'scaleX(-1)' to make the progress bar go from right to left.

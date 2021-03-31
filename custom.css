@@ -52,7 +52,6 @@ body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
 #div-cover    { order: 0; }  /* 0: Left side | 1: Right side */
 #div-cover    { background-color: #1CB050; }
 
-
 /*:::::::                      Song info display order and style                     :::::::*/
 #div-title    { order: 0; }  /* 0: Top row           */
 #div-artist   { order: 1; }  /* 1: First middle row  */
@@ -69,15 +68,16 @@ body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }
 /*:::::::                                 Widget style                                :::::::*/
 /* Set up the widget's rounded border. e.g. 25px */
 /* It'll automatically apply to the previous row */
-#div-current { border-radius: 25px; } 
+#div-current { border-radius: 25px; }
+
 /*:::::::                                 Cover style                                :::::::*/
 /* Set up the cover's size; e.g height: 80%;
    and rounded border.      e.g border-radius: 25px; */
-#cover { height: 80%; border-radius: 25px; } 
+#cover { height: 80%; width: 80%; border-radius: 25px; } 
 
 /*:::::::                             Progress bar style                             :::::::*/
 #div-progress { background-color: #535353 !important; }
-#div-bar      { background-color: #b3b3b3; height: 5px; }
+#div-bar      { background-color: #b3b3b3; }
 /* Set to 'scaleX(-1)' to make the progress bar go from right to left.
    Default is left to right */
 #div-progress { transform: scaleX(1); }
